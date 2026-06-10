@@ -1,0 +1,22 @@
+{
+  "name": "fass-und-flamme",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:static": "PUBLIC_CONTACT_ENDPOINT=/contact.php astro build --config astro.static.config.mjs",
+    "build:public-html": "node ./scripts/build-public-html.mjs",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.5.5",
+    "@astrojs/vercel": "^9.0.5",
+    "astro": "^5.16.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

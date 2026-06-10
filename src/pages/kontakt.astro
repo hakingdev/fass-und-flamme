@@ -1,0 +1,212 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const contactEmail = "info@hotel-weisses-haus.com";
+const phone = "+4915251812634";
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? "/api/contact";
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Kontakt Fass & Flamme Steakhouse Bad Kissingen",
+  url: "https://fass-und-flamme.de/kontakt/",
+  description: "Kontakt zu Fass & Flamme Steakhouse in Bad Kissingen.",
+  mainEntity: {
+    "@type": "Restaurant",
+    name: "Fass & Flamme Steakhouse",
+    telephone: phone,
+    email: contactEmail,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Kurhausstraße 14",
+      postalCode: "97688",
+      addressLocality: "Bad Kissingen",
+      addressCountry: "DE",
+    },
+    openingHoursSpecification: ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: day,
+      opens: "17:00",
+      closes: "22:00",
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title="Kontakt | Fass & Flamme Steakhouse Bad Kissingen"
+  description="Kontakt zu Fass & Flamme Steakhouse Bad Kissingen: Adresse, Telefon, E-Mail, Öffnungszeiten und Anfrageformular."
+  canonicalPath="/kontakt/"
+  image="/images/reservation-dinner-bier.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(contactSchema)}></script>
+
+  <header class="site-header" aria-label="Hauptnavigation">
+    <a class="brand" href="/" aria-label="Fass & Flamme Startseite">
+      <img class="brand__logo brand__logo--default" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+      <img class="brand__logo brand__logo--sticky" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" aria-hidden="true" />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" data-site-nav>
+      <a href="/">Start</a>
+      <a href="/galerie/">Galerie</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/" aria-current="page">Kontakt</a>
+    </nav>
+  </header>
+
+  <main class="contact-page">
+    <section class="contact-page__hero" aria-labelledby="contact-page-title">
+      <div>
+        <p class="eyebrow">Kontakt</p>
+        <h1 id="contact-page-title">Kontakt aufnehmen</h1>
+        <p class="contact-page__copy">
+          Fragen zu Gruppenabenden, Steakplatten oder einem Besuch bei Fass &amp; Flamme in Bad Kissingen? Senden Sie uns eine Nachricht oder rufen Sie direkt an.
+        </p>
+      </div>
+      <address class="contact-page__details">
+        <span>Kurhausstraße 14, 97688 Bad Kissingen</span>
+        <a href="tel:+4915251812634">01525 1812634</a>
+        <a href="mailto:info@hotel-weisses-haus.com">info@hotel-weisses-haus.com</a>
+      </address>
+    </section>
+
+    <section class="contact-page__layout" aria-label="Kontaktformular und Informationen">
+      <form class="contact-form" action={contactEndpoint} method="post" data-contact-form data-smtp-recipient={contactEmail} novalidate>
+        <input type="hidden" name="recipient" value={contactEmail} />
+        <input type="hidden" name="restaurant" value="Fass & Flamme Steakhouse Bad Kissingen" />
+        <input type="hidden" name="subject_prefix" value="Fass und Flamme Web" />
+
+        <div class="contact-form__heading">
+          <p class="eyebrow">Anfrageformular</p>
+          <h2>Nachricht senden</h2>
+        </div>
+
+        <div class="contact-form__grid">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" autocomplete="name" maxlength="80" required />
+          </label>
+          <label>
+            <span>E-Mail</span>
+            <input type="email" name="email" autocomplete="email" maxlength="120" required />
+          </label>
+          <label>
+            <span>Telefon</span>
+            <input type="tel" name="phone" autocomplete="tel" maxlength="40" />
+          </label>
+          <label>
+            <span>Anlass</span>
+            <select name="topic" required>
+              <option value="">Bitte wählen</option>
+              <option value="Reservierung">Reservierung</option>
+              <option value="Gruppenabend">Gruppenabend</option>
+              <option value="Feedback">Feedback</option>
+              <option value="Allgemeine Anfrage">Allgemeine Anfrage</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          <span>Nachricht</span>
+          <textarea name="message" rows="7" maxlength="1600" required></textarea>
+        </label>
+
+        <label class="contact-form__consent">
+          <input type="checkbox" name="privacy" value="accepted" required />
+          <span>Ich stimme zu, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden.</span>
+        </label>
+
+        <div class="contact-form__footer">
+          <button class="button button--primary" type="submit">Nachricht senden</button>
+          <p class="contact-form__status" data-contact-status role="status" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <aside class="contact-page__side">
+        <article class="contact-info-panel contact-info-panel--image">
+          <p class="eyebrow">Direkt</p>
+          <h2>Reservieren?</h2>
+          <p>Für einen Tisch nutzen Sie am schnellsten unsere Online-Reservierung.</p>
+          <a class="button button--primary" href="https://gastronaut.ai/reservations/fass-und-flamme-bad-kissingen" data-reservation-trigger>Online reservieren</a>
+        </article>
+
+        <article class="contact-info-panel">
+          <p class="eyebrow">Opening Hours</p>
+          <h2>Öffnungszeiten</h2>
+          <dl>
+            <dt>Montag</dt>
+            <dd>Ruhetag</dd>
+            <dt>Dienstag</dt>
+            <dd>Ruhetag</dd>
+            <dt>Mittwoch - Sonntag</dt>
+            <dd>17:00 - 22:00</dd>
+          </dl>
+        </article>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__links">
+      <a href="/">Start</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/galerie/">Galerie</a>
+    </div>
+    <div class="site-footer__brand">
+      <div class="site-footer__logo-wrap">
+        <img class="site-footer__logo site-footer__logo--light" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" loading="lazy" />
+        <img class="site-footer__logo site-footer__logo--original" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" loading="lazy" aria-hidden="true" />
+      </div>
+      <p>Dry Aged Steaks, BBQ und Bier vom Fass in Bad Kissingen.</p>
+    </div>
+    <div class="site-footer__links site-footer__links--right">
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="tel:+4915251812634">Anrufen</a>
+    </div>
+  </footer>
+
+  <script is:inline>
+    document.querySelectorAll("[data-contact-form]").forEach((form) => {
+      const status = form.querySelector("[data-contact-status]");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!(form instanceof HTMLFormElement)) return;
+        if (!form.reportValidity()) return;
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
+        if (status) status.textContent = "Nachricht wird vorbereitet...";
+
+        try {
+          const response = await fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            headers: { Accept: "application/json" },
+          });
+          const payload = await response.json().catch(() => null);
+
+          if (!response.ok) throw new Error(payload?.message || "Der Versand konnte nicht abgeschlossen werden.");
+
+          form.reset();
+          if (status) status.textContent = payload?.message || "Vielen Dank. Ihre Nachricht wurde gesendet.";
+          window.location.assign("/kontakt/danke/");
+        } catch (error) {
+          if (status) {
+            status.textContent = error instanceof Error ? error.message : "Der Versand konnte nicht abgeschlossen werden.";
+          }
+        } finally {
+          if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+        }
+      });
+    });
+  </script>
+</BaseLayout>

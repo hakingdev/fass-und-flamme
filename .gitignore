@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-private/
+dist-public_html/
+.vercel/
+.astro/
+
+# environment variables
+.env
+.env.*
+!.env.example
+
+# system files
+.DS_Store
+
+# IDE
+.idea/

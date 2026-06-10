@@ -1,0 +1,301 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const menuSections = [
+  {
+    id: "vorspeisen",
+    title: "Vorspeisen & Snacks",
+    note: "Zum Teilen, zum Bier oder als starker Start in den Abend.",
+    items: [
+      { name: "Dunkle Knoblauch-Croutons", description: "Mit Ranch-Sauce, 100/30 g", price: "5,00 €" },
+      { name: "Geräucherte Schweineohren", description: "In Soja-Senf-Sauce, 120 g", price: "9,00 €" },
+      { name: "Frittierte Sardellen", description: "Mit Cayenne und Ranch-Sauce, 120 g", price: "8,00 €" },
+      { name: "Frittierte Tintenfischringe", description: "Mit Remoulade, 150/30 g", price: "12,00 €" },
+      { name: "Buffalo Wings", description: "Pikante BBQ-Hähnchenflügel mit Dorblu-Sauce, 200/30 g", price: "10,00 €" },
+      { name: "Vegane Grillwürstchen", description: "Mit Senf und Landbrot, 200/30 g", price: "10,00 €" },
+      { name: "Frittierte Zwiebelringe", description: "Mit Ranch-Sauce, 150 g", price: "9,00 €" },
+      { name: "Frittierte Peperoni", description: "Mit Käse, 180/30 g", price: "11,00 €" },
+      { name: "Gemüseplatte", description: "Mit Tzatziki, 400/50 g", price: "14,00 €" },
+      { name: "Platte mit luftgetrocknetem & geräuchertem Fleisch", description: "180 g", price: "20,00 €" },
+      { name: "Käseplatte", description: "Cheddar, Brie, Pecorino Romano, Roquefort, Pesto-Käse, Rotweinkäse, 200 g", price: "18,00 €" },
+    ],
+  },
+  {
+    id: "salate",
+    title: "Salate & Suppen",
+    note: "Frische Teller, warme Suppen und Caesar-Extras vom Grill.",
+    items: [
+      { name: "Leichter saisonaler Salat", description: "200 g", price: "8,00 €" },
+      { name: "Salat mit gegrilltem Käse", description: "200 g", price: "12,00 €" },
+      { name: "Salat mit Avocado, Mango und Philadelphia-Käse", description: "200 g", price: "12,00 €" },
+      { name: "Caesar Salat", description: "Mit Ciabatta-Croutons, 200 g", price: "11,00 €" },
+      { name: "Caesar Extras", description: "Garnelen, Lachs oder gegrillte Hähnchenbrust", price: "+5,00 €" },
+      { name: "Minestrone", description: "300 g", price: "9,00 €" },
+      { name: "Gazpacho", description: "Kalte Gemüsesuppe mit Tomaten, 300 g", price: "10,00 €" },
+    ],
+  },
+  {
+    id: "steaks",
+    title: "Steaks",
+    note: "Preis je 100 g. Serviert mit Wedges, Kräuterbutter und Mais vom Grill.",
+    items: [
+      { name: "Ribeye-Steak", description: "Sehr zart, stark marmoriert, min. 200 g", price: "17,00 € / 100 g" },
+      { name: "New York Steak", description: "Zart, fein marmoriert, min. 200 g", price: "17,00 € / 100 g" },
+      { name: "Filet-Mignon-Steak", description: "Sehr zart, besonders mager, min. 200 g", price: "18,00 € / 100 g" },
+      { name: "Junges Kalbsentrecôte", description: "Sehr zart, fein marmoriert, min. 200 g", price: "17,00 € / 100 g" },
+    ],
+  },
+  {
+    id: "dry-aged",
+    title: "Premium Dry Aged",
+    note: "Mindestens 31 Tage gereift. Intensiver Geschmack, feine Marmorierung, Steakhouse-Charakter.",
+    items: [
+      { name: "Ribeye Dry Aged Steak", description: "Sehr zart, stark marmoriert, min. 200 g", price: "23,00 € / 100 g" },
+      { name: "Ribeye Dry Aged Steak am Knochen", description: "Sehr zart, stark marmoriert, min. 400 g", price: "21,00 € / 100 g" },
+      { name: "New-York-Steak Dry Aged", description: "Zart, fein marmoriert, min. 200 g", price: "23,00 € / 100 g" },
+    ],
+  },
+  {
+    id: "bbq",
+    title: "BBQ & Grill",
+    note: "Rippchen, Hähnchen und Grillplatten mit kräftigen Saucen.",
+    items: [
+      { name: "BBQ-Schweinerippchen", description: "300/50 g", price: "24,00 €" },
+      { name: "BBQ-Rinderrippchen", description: "400/50 g", price: "28,00 €" },
+      { name: "Kalbsrippchen mit Hot-Honey-Sauce", description: "Mit Hot-Honey-Sauce, BBQ-Dip und Tortilla, 450 g", price: "30,00 €" },
+      { name: "Ganzes BBQ-Hähnchen", description: "Mit Salsa-Pesto-Sauce und Tortilla, 400 g", price: "20,00 €" },
+      { name: "Sous-Vide Kalbfleisch", description: "Mit Pfeffersauce, 200 g", price: "25,00 €" },
+    ],
+  },
+  {
+    id: "burger",
+    title: "Burgers",
+    note: "Alle Burger mit Coleslaw und Kartoffel Dippers oder Pommes.",
+    items: [
+      { name: "F&F Dry Aged Burger", description: "Cheddar, Bacon und Spicy-Mayo, 150/110/70 g", price: "21,00 €" },
+      { name: "Double Dry Aged F&F Burger", description: "Cheddar, Bacon, BBQ-Sauce und Röstzwiebeln, 310/120/70 g", price: "25,00 €" },
+      { name: "Shrimp Party Burger", description: "Mango-Chili-Salsa, Cheddar, Eisbergsalat und Rucola, 100/120/70 g", price: "21,00 €" },
+      { name: "Lachsburger", description: "Mit Remoulade, 250/100/30 g", price: "20,00 €" },
+      { name: "Veganer Burger", description: "Beyond Meat Patty und veganer Cheddar, 280/100/30 g", price: "20,00 €" },
+    ],
+  },
+  {
+    id: "fisch",
+    title: "Fisch & Meeresfrüchte",
+    note: "Vom Grill, mit Remoulade, Knoblauchsauce und Ofentomaten.",
+    items: [
+      { name: "Gegrillte Forelle", description: "Mit Remoulade und Ofentomaten, 400/30 g", price: "17,00 €" },
+      { name: "Wildlachssteak", description: "Mit Remoulade, 210/30 g", price: "23,00 €" },
+      { name: "Gegrillte XL-Garnelen", description: "Mit Knoblauchsauce und Ofentomaten, 210/30 g", price: "23,00 €" },
+    ],
+  },
+  {
+    id: "gruppen",
+    title: "Gruppen & Beilagen",
+    note: "Große Platten, Beilagen und Extras für gemeinsame Abende.",
+    items: [
+      { name: "Grillplatte", description: "Drei Fleischsorten, gegrilltes Gemüse und Saucen, 1500 g", price: "90,00 €" },
+      { name: "Steakplatte", description: "Cowboy, New York, Filet Mignon mit Wedges und Saucen, 1250 g", price: "120,00 €" },
+      { name: "Schaschlikplatte", description: "Fleischvariation mit Kartoffeln und hausgemachten Saucen, 1050 g", price: "75,00 €" },
+      { name: "Bierteller", description: "Pommes, Zwiebelringe, Hähnchenflügel, Tintenfisch, Räucherkäse, Croutons und Trockenfleisch", price: "49,00 €" },
+      { name: "Beilagen", description: "Pommes frites, Potato Wedges, Reis, gegrillter Mais, Champignons, Gemüse oder Kartoffeln", price: "4,00 €" },
+      { name: "Saucen", description: "Sriracha, Dorblu, BBQ, Pfeffer, Sweet-Chili, Ketchup oder Mayonnaise", price: "1,70 €" },
+    ],
+  },
+  {
+    id: "desserts",
+    title: "Desserts",
+    note: "Süßer Abschluss nach Steak, BBQ und Bier.",
+    items: [
+      { name: "Napoleon Torte", description: "150 g", price: "10,00 €" },
+      { name: "Amerikanischer Apfelkuchen", description: "150/30 g", price: "12,00 €" },
+      { name: "Nuss-Brownie mit Eis", description: "120/30 g", price: "12,00 €" },
+    ],
+  },
+];
+
+const menuSchema = {
+  "@context": "https://schema.org",
+  "@type": "Menu",
+  name: "Speisekarte Fass & Flamme Steakhouse Bad Kissingen",
+  hasMenuSection: menuSections.map((section) => ({
+    "@type": "MenuSection",
+    name: section.title,
+    description: section.note,
+    hasMenuItem: section.items.map((item) => ({
+      "@type": "MenuItem",
+      name: item.name,
+      description: [item.description, item.price].filter(Boolean).join(" - "),
+    })),
+  })),
+};
+---
+
+<BaseLayout
+  title="Speisekarte Fass & Flamme Bad Kissingen | Steaks, BBQ, Burger & Bier"
+  description="Die Speisekarte von Fass & Flamme Steakhouse in Bad Kissingen: Dry Aged Steaks, BBQ, Burger, Fisch, Salate, Beilagen, Desserts und Bier vom Fass."
+  canonicalPath="/speisekarte/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(menuSchema)}></script>
+
+  <header class="site-header" aria-label="Hauptnavigation">
+    <a class="brand" href="/" aria-label="Fass & Flamme Startseite">
+      <img class="brand__logo brand__logo--default" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+      <img class="brand__logo brand__logo--sticky" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" aria-hidden="true" />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" data-site-nav>
+      <a href="/">Start</a>
+      <a href="/galerie/">Galerie</a>
+      <a href="/speisekarte/" aria-current="page">Speisekarte</a>
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+    </nav>
+  </header>
+
+  <main class="menu-page">
+    <section class="menu-page__header" aria-labelledby="menu-page-title">
+      <div>
+        <p class="eyebrow">Fass & Flamme Steakhouse</p>
+        <h1 id="menu-page-title">Speisekarte</h1>
+        <p class="menu-page__copy">
+          Dry Aged Steaks, BBQ vom Grill, Burger, Fisch, Vorspeisen zum Teilen und Bier vom Fass. Alles auf einer Seite, schnell
+          durch die Kategorien blättern.
+        </p>
+      </div>
+      <div class="menu-page__meta" aria-label="Menü Hinweise">
+        <span>Bad Kissingen</span>
+        <span>Steaks nach Gewicht</span>
+        <span>Reservierung empfohlen</span>
+      </div>
+    </section>
+
+    <section class="menu-slider" aria-label="Speisekarten Kategorien">
+      <div class="menu-slider__bar">
+        <nav class="menu-tabs" aria-label="Kategorien">
+          {
+            menuSections.map((section, index) => (
+              <a href={`#${section.id}`} data-menu-tab={index} class={index === 0 ? "is-active" : undefined}>
+                {String(index + 1).padStart(2, "0")} {section.title}
+              </a>
+            ))
+          }
+        </nav>
+        <div class="menu-arrows" aria-label="Kategorie wechseln">
+          <button class="menu-arrow" type="button" data-menu-prev aria-label="Vorherige Kategorie">‹</button>
+          <button class="menu-arrow" type="button" data-menu-next aria-label="Nächste Kategorie">›</button>
+        </div>
+      </div>
+
+      <div class="menu-carousel" data-menu-carousel tabindex="0">
+        {
+          menuSections.map((section, index) => (
+            <section class="menu-category" id={section.id} data-menu-section={index} aria-labelledby={`${section.id}-title`}>
+              <div class="menu-category__intro">
+                <span class="menu-category__number">{String(index + 1).padStart(2, "0")}</span>
+                <h2 id={`${section.id}-title`}>{section.title}</h2>
+                <p>{section.note}</p>
+              </div>
+              <div class="menu-category__items">
+                {section.items.map((item) => (
+                  <article class="menu-dish">
+                    <div>
+                      <h3>{item.name}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                    {item.price && <strong>{item.price}</strong>}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="menu-page__booking" aria-label="Reservierung">
+      <div>
+        <p class="eyebrow">Tisch sichern</p>
+        <h2>Steak Abend in Bad Kissingen</h2>
+      </div>
+      <a class="button button--primary" href="https://gastronaut.ai/reservations/fass-und-flamme-bad-kissingen" data-reservation-trigger>Reservieren</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__links">
+      <a href="/">Start</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/galerie/">Galerie</a>
+    </div>
+    <div class="site-footer__brand">
+      <div class="site-footer__logo-wrap">
+        <img class="site-footer__logo site-footer__logo--light" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" loading="lazy" />
+        <img class="site-footer__logo site-footer__logo--original" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" loading="lazy" aria-hidden="true" />
+      </div>
+      <p>Dry Aged Steaks, BBQ und Bier vom Fass in Bad Kissingen.</p>
+    </div>
+    <div class="site-footer__links site-footer__links--right">
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="tel:+4915251812634">Anrufen</a>
+    </div>
+  </footer>
+
+  <script is:inline>
+    const carousel = document.querySelector("[data-menu-carousel]");
+    const sections = Array.from(document.querySelectorAll("[data-menu-section]"));
+    const tabs = Array.from(document.querySelectorAll("[data-menu-tab]"));
+    const prevButton = document.querySelector("[data-menu-prev]");
+    const nextButton = document.querySelector("[data-menu-next]");
+    let activeIndex = 0;
+
+    const setActive = (index) => {
+      const nextActiveIndex = Math.max(0, Math.min(index, sections.length - 1));
+      if (nextActiveIndex === activeIndex) return;
+      activeIndex = nextActiveIndex;
+      tabs.forEach((tab, tabIndex) => {
+        tab.classList.toggle("is-active", tabIndex === activeIndex);
+      });
+      tabs[activeIndex]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    };
+
+    const goTo = (index) => {
+      const nextIndex = Math.max(0, Math.min(index, sections.length - 1));
+      sections[nextIndex]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+      setActive(nextIndex);
+      history.replaceState(null, "", `#${sections[nextIndex].id}`);
+    };
+
+    prevButton?.addEventListener("click", () => goTo(activeIndex - 1));
+    nextButton?.addEventListener("click", () => goTo(activeIndex + 1));
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", (event) => {
+        event.preventDefault();
+        goTo(index);
+      });
+    });
+
+    carousel?.addEventListener(
+      "scroll",
+      () => {
+        if (!carousel.clientWidth) return;
+        setActive(Math.round(carousel.scrollLeft / carousel.clientWidth));
+      },
+      { passive: true },
+    );
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") goTo(activeIndex - 1);
+      if (event.key === "ArrowRight") goTo(activeIndex + 1);
+    });
+
+    const initialIndex = sections.findIndex((section) => `#${section.id}` === window.location.hash);
+    if (initialIndex > 0) goTo(initialIndex);
+  </script>
+</BaseLayout>

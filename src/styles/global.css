@@ -1,0 +1,2646 @@
+:root {
+  color-scheme: dark;
+  --color-brand-bg: #c8b895;
+  --color-brand-bg-soft: #d8c8a8;
+  --color-bg: #19100b;
+  --color-bg-deep: #0b0705;
+  --color-panel: #24170f;
+  --color-panel-soft: #3a2416;
+  --color-text: #f5ead8;
+  --color-muted: #d2c1a4;
+  --color-line: rgba(200, 184, 149, 0.26);
+  --color-line-strong: rgba(200, 184, 149, 0.48);
+  --color-copper: #d46b1d;
+  --color-copper-dark: #8e261c;
+  --color-gold: #c8a04b;
+  --color-olive: #4b4a34;
+  --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.38);
+  --font-display: "Cinzel", Georgia, serif;
+  --font-heading: "Cinzel", Georgia, serif;
+  --font-body: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-accent: "Better Together Cups", "Cinzel", Georgia, serif;
+  --page-padding: clamp(20px, 7vw, 104px);
+  --section-gap: clamp(84px, 12vw, 180px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-bg-deep);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.84), rgba(17, 10, 7, 0.98) 760px, rgba(25, 16, 11, 0.96) 100%),
+    radial-gradient(circle at 80% 22%, rgba(200, 184, 149, 0.18), transparent 34%),
+    radial-gradient(circle at 12% 80%, rgba(212, 107, 29, 0.14), transparent 34%),
+    var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+body::selection {
+  background: var(--color-copper);
+  color: var(--color-text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  hyphens: none;
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+.site-header {
+  align-items: center;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+  left: 0;
+  padding: 34px var(--page-padding);
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    padding 180ms ease;
+  z-index: 50;
+}
+
+.site-header.is-stuck {
+  background: rgba(201, 181, 148, 0.96);
+  border-bottom-color: rgba(33, 21, 15, 0.16);
+  box-shadow: 0 12px 44px rgba(11, 7, 5, 0.16);
+  padding-block: 14px;
+}
+
+.site-header.is-stuck .brand {
+  height: clamp(72px, 6vw, 92px);
+  width: clamp(72px, 6vw, 92px);
+}
+
+.site-header.is-stuck .main-nav a {
+  color: rgba(33, 21, 15, 0.78);
+}
+
+.site-header.is-stuck .main-nav a:hover,
+.site-header.is-stuck .main-nav a[aria-current="page"] {
+  color: #140c08;
+}
+
+.site-header.is-stuck .nav-toggle {
+  background: rgba(33, 21, 15, 0.08);
+  border-color: rgba(33, 21, 15, 0.26);
+}
+
+.site-header.is-stuck .nav-toggle span {
+  background: #21150f;
+}
+
+.brand {
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: clamp(92px, 9vw, 136px);
+  position: relative;
+  transition:
+    height 180ms ease,
+    width 180ms ease;
+  width: clamp(92px, 9vw, 136px);
+}
+
+.brand__logo {
+  inset: 0;
+  position: absolute;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.brand__logo--sticky {
+  opacity: 0;
+  transform: scale(1.35);
+}
+
+.site-header.is-stuck .brand__logo--default {
+  opacity: 0;
+}
+
+.site-header.is-stuck .brand__logo--sticky {
+  opacity: 1;
+}
+
+.brand img {
+  filter:
+    drop-shadow(0 3px 8px rgba(0, 0, 0, 0.72))
+    drop-shadow(0 0 18px rgba(245, 234, 216, 0.2));
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+.nav-toggle {
+  align-items: center;
+  background: rgba(245, 234, 216, 0.08);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  display: none;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 5px;
+  height: 48px;
+  justify-content: center;
+  padding: 0;
+  width: 48px;
+}
+
+.nav-toggle span {
+  background: var(--color-text);
+  border-radius: 999px;
+  display: block;
+  height: 2px;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+  width: 20px;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.main-nav {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(14px, 2.8vw, 40px);
+  justify-content: flex-end;
+}
+
+.main-nav a {
+  color: rgba(243, 231, 211, 0.82);
+  font-size: 15px;
+  font-weight: 600;
+  transition: color 160ms ease;
+}
+
+.main-nav a:hover {
+  color: var(--color-text);
+}
+
+.main-nav a[aria-current="page"] {
+  color: var(--color-text);
+}
+
+.gastronaut-plugin-anchor {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: fixed;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@keyframes grill-border-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes grill-ember-pulse {
+  0%,
+  100% {
+    opacity: 0.16;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  50% {
+    opacity: 0.38;
+    transform: translateY(0) scale(1.04);
+  }
+}
+
+:is(
+  .dish-card,
+  .story__panel,
+  .reservation-card,
+  .hours-card,
+  .contact-card,
+  .gallery-hero__tile,
+  .gallery-tile,
+  .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel,
+  .thanks-page__panel
+) {
+  isolation: isolate;
+  position: relative;
+}
+
+:is(
+  .dish-card,
+  .story__panel,
+  .reservation-card,
+  .hours-card,
+  .contact-card,
+  .gallery-hero__tile,
+  .gallery-tile,
+  .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel,
+  .thanks-page__panel
+)::before,
+:is(
+  .dish-card,
+  .story__panel,
+  .reservation-card,
+  .hours-card,
+  .contact-card,
+  .gallery-hero__tile,
+  .gallery-tile,
+  .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel,
+  .thanks-page__panel
+)::after {
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+:is(
+  .dish-card,
+  .story__panel,
+  .reservation-card,
+  .hours-card,
+  .contact-card,
+  .gallery-hero__tile,
+  .gallery-tile,
+  .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel
+)::before {
+  background: conic-gradient(
+    from 0deg,
+    rgba(212, 107, 29, 0),
+    rgba(212, 107, 29, 0.96),
+    rgba(255, 190, 79, 0.98),
+    rgba(142, 38, 28, 0.86),
+    rgba(212, 107, 29, 0)
+  );
+  border-radius: inherit;
+  inset: 0;
+  padding: 1.5px;
+  z-index: 3;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+:is(
+  .dish-card,
+  .story__panel,
+  .reservation-card,
+  .hours-card,
+  .contact-card,
+  .gallery-hero__tile,
+  .gallery-tile,
+  .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel
+)::after {
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255, 146, 37, 0.44), transparent 58%),
+    radial-gradient(ellipse at 20% 100%, rgba(196, 46, 21, 0.3), transparent 48%),
+    radial-gradient(ellipse at 78% 100%, rgba(255, 201, 84, 0.24), transparent 52%);
+  border-radius: inherit;
+  filter: blur(8px);
+  height: 24px;
+  inset: auto 8px -4px;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+:is(
+  .dish-card,
+  .story__panel,
+  .reservation-card,
+  .hours-card,
+  .contact-card,
+  .gallery-hero__tile,
+  .gallery-tile,
+  .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel
+):hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 190, 79, 0.16),
+    0 18px 52px rgba(212, 107, 29, 0.22),
+    0 0 34px rgba(142, 38, 28, 0.2);
+}
+
+:is(
+  .dish-card,
+  .story__panel,
+  .reservation-card,
+  .hours-card,
+  .contact-card,
+  .gallery-hero__tile,
+  .gallery-tile,
+  .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel
+):hover::before {
+  animation: grill-border-spin 1.25s linear infinite;
+  opacity: 1;
+}
+
+:is(
+  .dish-card,
+  .story__panel,
+  .reservation-card,
+  .hours-card,
+  .contact-card,
+  .gallery-hero__tile,
+  .gallery-tile,
+  .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel
+):hover::after {
+  animation: grill-ember-pulse 1.5s ease-in-out infinite;
+  opacity: 1;
+}
+
+.hero {
+  display: grid;
+  isolation: isolate;
+  min-height: 88svh;
+  overflow: hidden;
+  padding-inline: var(--page-padding);
+  position: relative;
+}
+
+.hero__image,
+.hero__shade {
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.hero__image {
+  object-fit: cover;
+  object-position: 42% 50%;
+  z-index: -2;
+}
+
+.hero__shade {
+  background:
+    radial-gradient(circle at 31% 68%, rgba(199, 102, 46, 0.08), transparent 31%),
+    linear-gradient(90deg, rgba(11, 9, 7, 0.02), rgba(11, 9, 7, 0.34) 68%, rgba(11, 9, 7, 0.7)),
+    linear-gradient(180deg, rgba(11, 9, 7, 0.08), rgba(21, 17, 14, 0.72) 92%);
+  z-index: -1;
+}
+
+.hero__content {
+  align-self: center;
+  justify-self: end;
+  margin-right: clamp(28px, 5vw, 86px);
+  max-width: min(560px, 42vw);
+  min-width: 0;
+  padding: clamp(112px, 14vh, 190px) 0 clamp(56px, 8vh, 96px);
+  width: 100%;
+}
+
+.eyebrow {
+  color: var(--color-gold);
+  font-family: var(--font-accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.button,
+.text-link,
+.menu-tabs a,
+.menu-category__number,
+.menu-item strong,
+.menu-dish strong,
+.reservation-card__title strong,
+.hours-card dd,
+.contact-card a,
+.gallery-tile span,
+.gallery-step span,
+.reservation-info-card dd,
+.reservation-info-card a:not(.button),
+.contact-page__details a,
+.contact-info-panel dd {
+  font-family: var(--font-accent);
+}
+
+.hero h1 {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(54px, 6.4vw, 96px);
+  font-weight: 500;
+  line-height: 0.94;
+  margin-top: 16px;
+  max-width: 100%;
+  overflow-wrap: normal;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.hero__copy {
+  color: rgba(243, 231, 211, 0.88);
+  font-size: clamp(17px, 2.4vw, 23px);
+  margin-top: 24px;
+  max-width: 620px;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.button {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 15px;
+  font-weight: 800;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.button:hover {
+  box-shadow:
+    0 10px 28px rgba(201, 181, 148, 0.18),
+    0 0 0 1px rgba(201, 181, 148, 0.18);
+  transform: translateY(-1px);
+}
+
+.button::before,
+.button::after {
+  content: none;
+}
+
+.button--primary {
+  background: var(--color-brand-bg);
+  border-color: var(--color-brand-bg);
+  color: #140c08;
+}
+
+.button--primary:hover {
+  background: var(--color-brand-bg-soft);
+  border-color: var(--color-brand-bg-soft);
+}
+
+.button--ghost {
+  border-color: var(--color-line-strong);
+  color: var(--color-text);
+}
+
+.button--ghost:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.section {
+  margin-inline: auto;
+  max-width: 1232px;
+  padding-inline: var(--page-padding);
+}
+
+.section + .section {
+  margin-top: var(--section-gap);
+}
+
+.section__heading {
+  margin-bottom: clamp(32px, 6vw, 84px);
+}
+
+.section__heading h2,
+.story h2,
+.menu-preview h2,
+.hours-card h2,
+.contact-card h2,
+.reservation h2 {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(34px, 5vw, 54px);
+  font-weight: 600;
+  line-height: 1.05;
+  margin-top: 10px;
+  max-width: 780px;
+  text-transform: uppercase;
+}
+
+.signature {
+  padding-top: clamp(64px, 8vw, 120px);
+}
+
+.signature__grid {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dish-card {
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.06), rgba(36, 23, 15, 0.56));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  display: grid;
+  gap: 16px;
+  grid-template-rows: 1fr auto auto;
+  min-height: 360px;
+  overflow: hidden;
+  padding: 34px;
+  position: relative;
+}
+
+.dish-card--image {
+  background: #1c130e;
+  border-color: transparent;
+  box-shadow: var(--shadow-soft);
+}
+
+.dish-card__photo {
+  background:
+    linear-gradient(180deg, rgba(21, 17, 14, 0.08), rgba(21, 17, 14, 0.9)),
+    var(--dish-image);
+  background-position: 36% 56%;
+  background-size: cover;
+  inset: 0;
+  position: absolute;
+}
+
+.dish-card h3,
+.dish-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.dish-card h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 2.8vw, 30px);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0;
+  max-width: 280px;
+  text-transform: uppercase;
+}
+
+.dish-card p {
+  align-self: start;
+  color: rgba(243, 231, 211, 0.78);
+  font-size: 15px;
+  line-height: 1.45;
+  margin: 0;
+  max-width: 290px;
+}
+
+.story {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.story__panel {
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  min-height: 620px;
+  overflow: hidden;
+}
+
+.story__panel--photo {
+  background:
+    linear-gradient(180deg, rgba(21, 17, 14, 0.14), rgba(21, 17, 14, 0.86)),
+    url("/images/hero-steakhouse.png");
+  background-position: 12% 56%;
+  background-size: cover;
+}
+
+.story__panel--photo-alt {
+  background-position: 72% 56%;
+}
+
+.story__panel--text {
+  align-items: center;
+  background: linear-gradient(180deg, rgba(58, 36, 22, 0.84), rgba(25, 16, 11, 0.92));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 54px);
+  text-align: center;
+}
+
+.story__panel--text p:not(.eyebrow) {
+  color: rgba(243, 231, 211, 0.78);
+  margin: 28px auto 32px;
+  max-width: 320px;
+}
+
+.menu-preview {
+  align-items: start;
+  display: grid;
+  gap: clamp(36px, 7vw, 96px);
+  grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1fr);
+}
+
+.menu-preview__image {
+  background:
+    linear-gradient(180deg, rgba(21, 17, 14, 0.04), rgba(21, 17, 14, 0.92)),
+    url("/images/hero-steakhouse.png");
+  background-position: 34% 52%;
+  background-size: cover;
+  border-radius: 8px;
+  min-height: 760px;
+  box-shadow: var(--shadow-soft);
+}
+
+.menu-list {
+  display: grid;
+  gap: 30px;
+  margin-top: 58px;
+}
+
+.menu-item {
+  align-items: start;
+  border-bottom: 1px solid var(--color-line);
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding-bottom: 28px;
+}
+
+.menu-item h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(21px, 2.4vw, 29px);
+  font-weight: 600;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.menu-item p {
+  color: rgba(243, 231, 211, 0.74);
+  font-size: 15px;
+  margin-top: 12px;
+  max-width: 450px;
+}
+
+.menu-item strong {
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.text-link {
+  color: var(--color-gold);
+  display: inline-flex;
+  font-weight: 800;
+  margin-top: 36px;
+}
+
+.text-link:hover {
+  color: var(--color-copper);
+}
+
+.reservation__list {
+  display: grid;
+  gap: 28px;
+}
+
+.reservation-card {
+  align-items: center;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  display: grid;
+  gap: clamp(28px, 6vw, 76px);
+  grid-template-columns: 0.9fr 1fr 310px;
+  min-height: 320px;
+  overflow: hidden;
+  padding: clamp(30px, 5vw, 64px);
+}
+
+.reservation-card__title h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 600;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.reservation-card__title strong {
+  color: var(--color-gold);
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 20px;
+  margin: 22px 0 28px;
+}
+
+.reservation-card ul {
+  color: rgba(243, 231, 211, 0.8);
+  display: grid;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.reservation-card li {
+  padding-left: 24px;
+  position: relative;
+}
+
+.reservation-card li::before {
+  background: var(--color-copper);
+  content: "";
+  height: 7px;
+  left: 0;
+  position: absolute;
+  top: 0.7em;
+  width: 7px;
+}
+
+.reservation-card__visual {
+  background:
+    linear-gradient(180deg, rgba(21, 17, 14, 0.12), rgba(21, 17, 14, 0.8)),
+    var(--reservation-image, url("/images/hero-steakhouse.png"));
+  background-position: 50% 56%;
+  background-size: cover;
+  border-radius: 8px;
+  height: 100%;
+  min-height: 250px;
+}
+
+.contact-strip {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(340px, 1fr) minmax(300px, 0.9fr) minmax(280px, 0.85fr);
+  margin-bottom: clamp(86px, 12vw, 170px);
+}
+
+.contact-strip__photo,
+.hours-card,
+.contact-card {
+  border-radius: 8px;
+  min-height: 470px;
+}
+
+.contact-strip__photo {
+  background:
+    linear-gradient(180deg, rgba(21, 17, 14, 0.04), rgba(21, 17, 14, 0.8)),
+    url("/images/hero-steakhouse.png");
+  background-position: 8% 58%;
+  background-size: cover;
+  box-shadow: var(--shadow-soft);
+}
+
+.hours-card,
+.contact-card {
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.06), rgba(36, 23, 15, 0.56));
+  border: 1px solid var(--color-line);
+  min-width: 0;
+  padding: clamp(28px, 3vw, 36px);
+}
+
+.hours-card {
+  container-type: inline-size;
+}
+
+.hours-card h2 {
+  font-size: clamp(20px, 9.5cqi, 30px);
+  line-height: 1.02;
+  margin-inline: auto;
+  max-width: 100%;
+  overflow-wrap: normal;
+  text-align: center;
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.contact-card h2 {
+  font-size: clamp(24px, 2vw, 32px);
+  line-height: 1.02;
+  max-width: 100%;
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+.hours-card dl {
+  display: grid;
+  gap: 12px 10px;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  margin: 34px 0 0;
+}
+
+.hours-card dt,
+.hours-card dd {
+  border-bottom: 1px solid rgba(243, 231, 211, 0.12);
+  font-size: clamp(13px, 1.2vw, 16px);
+  margin: 0;
+  min-width: 0;
+  padding-bottom: 10px;
+}
+
+.hours-card dt {
+  color: rgba(243, 231, 211, 0.82);
+}
+
+.hours-card dd {
+  color: var(--color-gold);
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+}
+
+.contact-card h2 {
+  margin-bottom: 34px;
+}
+
+.contact-card span,
+.contact-card a {
+  border-bottom: 1px solid rgba(243, 231, 211, 0.12);
+  color: rgba(243, 231, 211, 0.82);
+  padding: 16px 0;
+}
+
+.contact-card a {
+  color: var(--color-gold);
+  font-weight: 800;
+}
+
+.contact-card .contact-card__email {
+  font-size: 13px;
+  overflow-wrap: normal;
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.gallery-page {
+  min-height: 100svh;
+  overflow: hidden;
+  padding: clamp(178px, 18vw, 246px) var(--page-padding) clamp(84px, 12vw, 156px);
+  position: relative;
+}
+
+.gallery-page::before {
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.4), rgba(25, 16, 11, 0.98) 78%),
+    url("/images/hero-steakhouse.png");
+  background-position: 44% 44%;
+  background-size: cover;
+  content: "";
+  inset: 0 0 auto;
+  height: min(640px, 78svh);
+  opacity: 0.46;
+  position: absolute;
+  z-index: -1;
+}
+
+.gallery-hero {
+  align-items: stretch;
+  display: grid;
+  gap: clamp(36px, 7vw, 96px);
+  grid-template-columns: minmax(0, 0.95fr) minmax(340px, 0.72fr);
+  margin-inline: auto;
+  max-width: 1232px;
+}
+
+.gallery-hero > * {
+  min-width: 0;
+}
+
+.gallery-hero h1 {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(48px, 5.8vw, 86px);
+  font-weight: 500;
+  line-height: 0.9;
+  margin-top: 14px;
+  max-width: 100%;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.gallery-hero__copy {
+  color: rgba(245, 234, 216, 0.84);
+  font-size: clamp(17px, 2vw, 22px);
+  margin-top: 26px;
+  max-width: 720px;
+}
+
+.gallery-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.gallery-hero__preview {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  height: 100%;
+}
+
+.gallery-hero__tile,
+.gallery-tile {
+  aspect-ratio: 1;
+  background:
+    linear-gradient(135deg, rgba(200, 184, 149, 0.14), rgba(212, 107, 29, 0.1) 42%, transparent 42%),
+    linear-gradient(180deg, rgba(58, 36, 22, 0.76), rgba(15, 10, 7, 0.96));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-hero__tile {
+  aspect-ratio: auto;
+  align-items: end;
+  background-color: #0f0a07;
+  background-clip: border-box;
+  background-origin: border-box;
+  background-position: center;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, cover;
+  border-color: rgba(11, 7, 5, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(11, 7, 5, 0.58);
+  display: flex;
+  min-height: 0;
+  padding: 20px;
+}
+
+.gallery-hero__tile--steak {
+  background-image:
+    linear-gradient(rgba(11, 7, 5, 0.15), rgba(11, 7, 5, 0.15)),
+    url("/images/gallery/hero-steak.webp");
+  background-position: 52% 58%;
+}
+
+.gallery-hero__tile--grill {
+  background-image:
+    linear-gradient(rgba(11, 7, 5, 0.15), rgba(11, 7, 5, 0.15)),
+    url("/images/gallery/hero-grill.webp");
+  background-position: 50% 55%;
+}
+
+.gallery-hero__tile--bar {
+  background-image:
+    linear-gradient(rgba(11, 7, 5, 0.15), rgba(11, 7, 5, 0.15)),
+    url("/images/gallery/hero-bar.webp");
+  background-position: 44% 48%;
+}
+
+.gallery-hero__tile--abend {
+  background-image:
+    linear-gradient(rgba(11, 7, 5, 0.15), rgba(11, 7, 5, 0.15)),
+    url("/images/gallery/hero-abend.webp");
+  background-position: 50% 54%;
+}
+
+.gallery-hero__tile span {
+  color: rgba(245, 234, 216, 0.82);
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 700;
+  position: relative;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.82);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.gallery-categories {
+  margin-top: clamp(64px, 9vw, 118px);
+}
+
+.gallery-page .section {
+  padding-inline: 0;
+}
+
+.gallery-category + .gallery-category {
+  margin-top: clamp(54px, 8vw, 92px);
+}
+
+.gallery-category__header {
+  align-items: end;
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 0.85fr) minmax(280px, 0.42fr);
+  margin-bottom: 28px;
+  padding-top: 28px;
+}
+
+.gallery-category__header h2,
+.gallery-funnel h2 {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4.5vw, 54px);
+  font-weight: 600;
+  line-height: 1.04;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.gallery-category__header p:not(.eyebrow),
+.gallery-funnel__content p,
+.gallery-step p {
+  color: rgba(245, 234, 216, 0.76);
+}
+
+.gallery-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.gallery-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 18px;
+}
+
+.gallery-tile--photo {
+  background-color: #0f0a07;
+  background-clip: border-box;
+  background-image:
+    linear-gradient(rgba(11, 7, 5, 0.15), rgba(11, 7, 5, 0.15)),
+    var(--gallery-image);
+  background-origin: border-box;
+  background-position: var(--gallery-position, center);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, cover;
+  border-color: rgba(11, 7, 5, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(11, 7, 5, 0.58);
+}
+
+.gallery-tile span {
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  position: relative;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.82);
+  z-index: 2;
+}
+
+.gallery-tile figcaption {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 600;
+  line-height: 1.06;
+  position: relative;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.gallery-funnel {
+  align-items: start;
+  border-block: 1px solid var(--color-line);
+  display: grid;
+  gap: clamp(36px, 7vw, 92px);
+  grid-template-columns: minmax(0, 0.8fr) minmax(360px, 0.72fr);
+  margin-bottom: clamp(86px, 12vw, 170px);
+  margin-top: var(--section-gap);
+  padding-block: clamp(48px, 7vw, 78px);
+}
+
+.gallery-funnel__content p {
+  font-size: clamp(17px, 2vw, 21px);
+  margin-top: 24px;
+  max-width: 640px;
+}
+
+.gallery-funnel__steps {
+  display: grid;
+  gap: 18px;
+}
+
+.gallery-step {
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.06), rgba(36, 23, 15, 0.56));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  display: grid;
+  gap: 16px;
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.gallery-step span {
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.gallery-step h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(23px, 2.8vw, 32px);
+  font-weight: 600;
+  line-height: 1.04;
+  text-transform: uppercase;
+}
+
+.gallery-step .button {
+  justify-self: start;
+  margin-top: 4px;
+}
+
+.site-footer {
+  align-items: start;
+  background-color: transparent;
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  gap: 28px;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  padding: 70px var(--page-padding) 78px;
+  transition:
+    background-color 320ms ease,
+    border-color 320ms ease,
+    color 320ms ease;
+}
+
+.site-footer__brand {
+  text-align: center;
+}
+
+.site-footer__logo-wrap {
+  display: grid;
+  height: clamp(142px, 16vw, 190px);
+  margin: 0 auto;
+  place-items: center;
+  width: clamp(142px, 16vw, 190px);
+}
+
+.site-footer__logo {
+  grid-area: 1 / 1;
+  filter:
+    drop-shadow(0 3px 10px rgba(0, 0, 0, 0.64))
+    drop-shadow(0 0 20px rgba(245, 234, 216, 0.16));
+  height: 100%;
+  margin: 0;
+  object-fit: contain;
+  transition:
+    filter 320ms ease,
+    opacity 260ms ease,
+    transform 320ms ease;
+  width: 100%;
+}
+
+.site-footer__logo--original {
+  filter: none;
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.site-footer__brand strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.site-footer__brand p {
+  color: rgba(243, 231, 211, 0.68);
+  margin: 22px auto 0;
+  max-width: 360px;
+  transition: color 320ms ease;
+}
+
+.site-footer__links {
+  display: grid;
+  gap: 18px;
+}
+
+.site-footer__links--right {
+  justify-items: end;
+}
+
+.site-footer__links a {
+  color: rgba(243, 231, 211, 0.58);
+  font-size: 15px;
+  transition: color 220ms ease;
+}
+
+.site-footer__links a:hover {
+  color: var(--color-gold);
+}
+
+@media (hover: hover) {
+  .site-footer:hover,
+  .site-footer:focus-within {
+    background-color: #c9b594;
+    border-color: rgba(26, 18, 13, 0.28);
+    color: #1a120d;
+  }
+
+  .site-footer:hover .site-footer__logo--light,
+  .site-footer:focus-within .site-footer__logo--light {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  .site-footer:hover .site-footer__logo--original,
+  .site-footer:focus-within .site-footer__logo--original {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .site-footer:hover .site-footer__brand p,
+  .site-footer:hover .site-footer__links a,
+  .site-footer:focus-within .site-footer__brand p,
+  .site-footer:focus-within .site-footer__links a {
+    color: rgba(26, 18, 13, 0.78);
+  }
+
+  .site-footer:hover .site-footer__links a:hover,
+  .site-footer:focus-within .site-footer__links a:focus-visible {
+    color: #1a120d;
+  }
+}
+
+.menu-page {
+  min-height: 100svh;
+  overflow: hidden;
+  padding: clamp(178px, 18vw, 246px) var(--page-padding) clamp(84px, 12vw, 156px);
+  position: relative;
+}
+
+.menu-page::before {
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.58), rgba(25, 16, 11, 0.96) 72%),
+    url("/images/hero-steakhouse.png");
+  background-position: 38% 42%;
+  background-size: cover;
+  content: "";
+  inset: 0 0 auto;
+  height: min(560px, 72svh);
+  opacity: 0.54;
+  position: absolute;
+  z-index: -1;
+}
+
+.menu-page__header {
+  align-items: stretch;
+  display: grid;
+  gap: clamp(32px, 7vw, 96px);
+  grid-template-columns: minmax(0, 760px) minmax(220px, 320px);
+  margin-inline: auto;
+  max-width: 1232px;
+}
+
+.menu-page__header > * {
+  min-width: 0;
+}
+
+.menu-page h1 {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(52px, 7.2vw, 104px);
+  font-weight: 500;
+  line-height: 0.9;
+  margin-top: 14px;
+  max-width: 100%;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.menu-page__copy {
+  color: rgba(245, 234, 216, 0.82);
+  font-size: clamp(17px, 2vw, 22px);
+  margin-top: 26px;
+  max-width: 720px;
+}
+
+.menu-page__meta {
+  align-content: space-evenly;
+  align-self: stretch;
+  border-block: 1px solid var(--color-line);
+  color: rgba(245, 234, 216, 0.72);
+  display: grid;
+  font-weight: 700;
+  gap: 14px;
+  padding: 24px 0;
+  text-transform: uppercase;
+}
+
+.menu-slider {
+  margin: clamp(54px, 8vw, 92px) auto 0;
+  max-width: 1232px;
+}
+
+.menu-slider__bar {
+  align-items: center;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.menu-tabs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.menu-tabs::-webkit-scrollbar,
+.menu-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-tabs a {
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  color: rgba(245, 234, 216, 0.72);
+  flex: 0 0 auto;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 16px;
+  text-transform: uppercase;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+  white-space: nowrap;
+}
+
+.menu-tabs a:hover,
+.menu-tabs a.is-active {
+  background: var(--color-brand-bg);
+  border-color: var(--color-brand-bg);
+  color: #140c08;
+}
+
+.menu-arrows {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+}
+
+.menu-arrow {
+  align-items: center;
+  background: rgba(245, 234, 216, 0.08);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  color: var(--color-text);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 34px;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  padding: 0 0 4px;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+  width: 48px;
+}
+
+.menu-arrow:hover {
+  background: var(--color-brand-bg);
+  border-color: var(--color-brand-bg);
+  color: #140c08;
+  transform: translateY(-1px);
+}
+
+.menu-carousel {
+  border-block: 1px solid var(--color-line);
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: column;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.menu-category {
+  display: grid;
+  gap: clamp(34px, 6vw, 86px);
+  grid-template-columns: minmax(220px, 0.36fr) minmax(0, 1fr);
+  min-height: 640px;
+  padding: clamp(42px, 6vw, 78px) 0;
+  scroll-snap-align: start;
+}
+
+.menu-category__intro {
+  align-self: start;
+}
+
+.menu-category__number {
+  color: var(--color-gold);
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.menu-category h2,
+.menu-page__booking h2 {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 600;
+  line-height: 1.03;
+  text-transform: uppercase;
+}
+
+.menu-category__intro p {
+  color: rgba(245, 234, 216, 0.72);
+  margin-top: 22px;
+  max-width: 320px;
+}
+
+.menu-category__items {
+  align-content: start;
+  display: grid;
+}
+
+.menu-dish {
+  align-items: start;
+  border-bottom: 1px solid rgba(200, 184, 149, 0.18);
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) minmax(116px, auto);
+  padding: 22px 0;
+}
+
+.menu-dish:first-child {
+  padding-top: 0;
+}
+
+.menu-dish h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(21px, 2.2vw, 28px);
+  font-weight: 600;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+.menu-dish p {
+  color: rgba(245, 234, 216, 0.72);
+  font-size: 15px;
+  margin-top: 10px;
+  max-width: 560px;
+}
+
+.menu-dish strong {
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.menu-page__booking {
+  align-items: center;
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.08), rgba(36, 23, 15, 0.66));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin: 36px auto 0;
+  max-width: 1232px;
+  padding: clamp(28px, 5vw, 46px);
+}
+
+.reservation-page {
+  min-height: 100svh;
+  overflow: hidden;
+  padding: clamp(178px, 18vw, 246px) var(--page-padding) clamp(84px, 12vw, 156px);
+  position: relative;
+}
+
+.reservation-page::before {
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.42), rgba(25, 16, 11, 0.98) 78%),
+    url("/images/reservation-steak-night.jpg");
+  background-position: 58% 44%;
+  background-size: cover;
+  content: "";
+  inset: 0 0 auto;
+  height: min(620px, 78svh);
+  opacity: 0.46;
+  position: absolute;
+  z-index: -1;
+}
+
+.reservation-page__hero {
+  align-items: center;
+  display: grid;
+  gap: clamp(36px, 7vw, 96px);
+  grid-template-columns: minmax(0, 0.95fr) minmax(340px, 0.9fr);
+  margin-inline: auto;
+  max-width: 1232px;
+}
+
+.reservation-page__hero > * {
+  min-width: 0;
+}
+
+.reservation-page__content h1 {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(48px, 5.8vw, 84px);
+  font-weight: 500;
+  line-height: 0.9;
+  margin-top: 14px;
+  max-width: 100%;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.reservation-page__content p:not(.eyebrow) {
+  color: rgba(245, 234, 216, 0.84);
+  font-size: clamp(17px, 2vw, 22px);
+  margin-top: 26px;
+  max-width: 660px;
+}
+
+.reservation-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.reservation-page__image {
+  background:
+    linear-gradient(180deg, rgba(21, 17, 14, 0.06), rgba(21, 17, 14, 0.74)),
+    url("/images/reservation-steak-night.jpg");
+  background-position: 58% 52%;
+  background-size: cover;
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  min-height: clamp(380px, 44vw, 580px);
+}
+
+.reservation-page__grid {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: clamp(54px, 8vw, 92px) auto 0;
+  max-width: 1232px;
+}
+
+.reservation-info-card {
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.06), rgba(36, 23, 15, 0.56));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  min-height: 360px;
+  overflow: hidden;
+  padding: clamp(28px, 3vw, 40px);
+  position: relative;
+}
+
+.reservation-info-card h2 {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 3.3vw, 44px);
+  font-weight: 600;
+  line-height: 1.02;
+  margin-top: 12px;
+  text-transform: uppercase;
+}
+
+.reservation-info-card p:not(.eyebrow) {
+  color: rgba(245, 234, 216, 0.76);
+  margin-top: 22px;
+  max-width: 360px;
+}
+
+.reservation-info-card dl {
+  display: grid;
+  gap: 12px 18px;
+  grid-template-columns: 1fr auto;
+  margin: 34px 0 0;
+}
+
+.reservation-info-card dt,
+.reservation-info-card dd,
+.reservation-info-card span,
+.reservation-info-card a:not(.button) {
+  border-bottom: 1px solid rgba(243, 231, 211, 0.12);
+  margin: 0;
+  padding: 14px 0;
+}
+
+.reservation-info-card dt,
+.reservation-info-card span {
+  color: rgba(243, 231, 211, 0.82);
+}
+
+.reservation-info-card dd,
+.reservation-info-card a:not(.button) {
+  color: var(--color-gold);
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.reservation-info-card--photo {
+  background:
+    linear-gradient(180deg, rgba(15, 10, 7, 0.36), rgba(15, 10, 7, 0.88)),
+    url("/images/reservation-gruppenabend.jpg");
+  background-position: 62% 54%;
+  background-size: cover;
+  justify-content: space-between;
+}
+
+.reservation-info-card--photo > * {
+  position: relative;
+  z-index: 1;
+}
+
+.reservation-info-card--photo .button {
+  align-self: start;
+  margin-top: 28px;
+}
+
+.reservation-info-card--contact a:not(.button),
+.reservation-info-card--contact span {
+  text-align: left;
+}
+
+.contact-page {
+  min-height: 100svh;
+  overflow: hidden;
+  padding: clamp(178px, 18vw, 246px) var(--page-padding) clamp(84px, 12vw, 156px);
+  position: relative;
+}
+
+.contact-page::before {
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.5), rgba(25, 16, 11, 0.98) 78%),
+    url("/images/reservation-dinner-bier.jpg");
+  background-position: 58% 50%;
+  background-size: cover;
+  content: "";
+  inset: 0 0 auto;
+  height: min(600px, 76svh);
+  opacity: 0.52;
+  position: absolute;
+  z-index: -1;
+}
+
+.contact-page__hero {
+  align-items: stretch;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  margin-inline: auto;
+  max-width: 1232px;
+}
+
+.contact-page__hero > div,
+.contact-page__details {
+  min-height: clamp(300px, 30vw, 430px);
+}
+
+.contact-page__hero > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.contact-page__hero h1 {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(50px, 6.4vw, 92px);
+  font-weight: 500;
+  line-height: 0.9;
+  margin-top: 14px;
+  max-width: 100%;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.contact-page__copy {
+  color: rgba(245, 234, 216, 0.84);
+  font-size: clamp(17px, 2vw, 22px);
+  margin-top: 26px;
+  max-width: 700px;
+}
+
+.contact-page__details {
+  align-self: stretch;
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.08), rgba(36, 23, 15, 0.62));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  display: grid;
+  font-style: normal;
+  gap: 0;
+  align-content: center;
+  min-width: 0;
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.contact-page__details span,
+.contact-page__details a {
+  border-bottom: 1px solid rgba(243, 231, 211, 0.12);
+  color: rgba(243, 231, 211, 0.82);
+  padding: 14px 0;
+}
+
+.contact-page__details a {
+  color: var(--color-gold);
+  font-weight: 800;
+}
+
+.contact-page__layout {
+  align-items: stretch;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  margin: clamp(54px, 8vw, 92px) auto 0;
+  max-width: 1232px;
+}
+
+.contact-form,
+.contact-info-panel {
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.06), rgba(36, 23, 15, 0.56));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  min-width: 0;
+  padding: clamp(28px, 4vw, 48px);
+}
+
+.contact-form {
+  display: grid;
+  gap: 26px;
+}
+
+.contact-form__heading h2,
+.contact-info-panel h2 {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 600;
+  line-height: 1.02;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.contact-form__grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.contact-form label {
+  color: rgba(245, 234, 216, 0.76);
+  display: grid;
+  font-size: 14px;
+  font-weight: 700;
+  gap: 10px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  appearance: none;
+  background: rgba(11, 7, 5, 0.46);
+  border: 1px solid rgba(200, 184, 149, 0.28);
+  border-radius: 8px;
+  color: var(--color-text);
+  font: inherit;
+  min-height: 54px;
+  outline: none;
+  padding: 14px 16px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+  width: 100%;
+}
+
+.contact-form select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-gold) 50%),
+    linear-gradient(135deg, var(--color-gold) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 13px) 50%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+
+.contact-form textarea {
+  min-height: 190px;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(200, 160, 75, 0.16);
+}
+
+.contact-form__consent {
+  align-items: start;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 22px minmax(0, 1fr);
+}
+
+.contact-form__consent input {
+  appearance: auto;
+  accent-color: var(--color-copper);
+  margin-top: 3px;
+  min-height: auto;
+  padding: 0;
+}
+
+.contact-form__footer {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.contact-form__footer .button {
+  min-width: 210px;
+}
+
+.contact-form__status {
+  color: rgba(245, 234, 216, 0.72);
+  flex: 1 1 240px;
+  font-size: 14px;
+  min-height: 22px;
+}
+
+.contact-page__side {
+  align-self: stretch;
+  display: grid;
+  gap: 28px;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.contact-info-panel {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+}
+
+.contact-page__side .contact-info-panel h2 {
+  font-size: clamp(24px, 2.25vw, 34px);
+  max-width: 100%;
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+.contact-info-panel p:not(.eyebrow) {
+  color: rgba(245, 234, 216, 0.76);
+  margin-top: 20px;
+  max-width: 360px;
+}
+
+.contact-info-panel .button {
+  margin-top: 30px;
+}
+
+.contact-info-panel--image {
+  background:
+    linear-gradient(180deg, rgba(15, 10, 7, 0.22), rgba(15, 10, 7, 0.9)),
+    url("/images/reservation-gruppenabend.jpg");
+  background-position: 55% 54%;
+  background-size: cover;
+}
+
+.contact-page__side .contact-info-panel {
+  min-height: 0;
+}
+
+.contact-info-panel dl {
+  display: grid;
+  gap: 12px 10px;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  margin: 30px 0 0;
+  max-width: 380px;
+  width: 100%;
+}
+
+.contact-info-panel dt,
+.contact-info-panel dd {
+  border-bottom: 1px solid rgba(243, 231, 211, 0.12);
+  font-size: clamp(13px, 1.2vw, 16px);
+  margin: 0;
+  min-width: 0;
+  padding: 12px 0;
+}
+
+.contact-info-panel dt {
+  color: rgba(243, 231, 211, 0.82);
+}
+
+.contact-info-panel dd {
+  color: var(--color-gold);
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.thanks-page {
+  min-height: 100svh;
+  padding: clamp(178px, 18vw, 246px) var(--page-padding) clamp(84px, 12vw, 156px);
+  position: relative;
+}
+
+.thanks-page::before {
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.48), rgba(25, 16, 11, 0.98) 78%),
+    url("/images/reservation-dinner-bier.jpg");
+  background-position: 58% 50%;
+  background-size: cover;
+  content: "";
+  inset: 0 0 auto;
+  height: min(620px, 76svh);
+  opacity: 0.52;
+  position: absolute;
+  z-index: -1;
+}
+
+.thanks-page__panel {
+  align-items: center;
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.08), rgba(36, 23, 15, 0.66));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  display: grid;
+  gap: clamp(32px, 6vw, 72px);
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-inline: auto;
+  max-width: 1232px;
+  min-height: clamp(420px, 44vw, 580px);
+  padding: clamp(32px, 6vw, 72px);
+}
+
+.thanks-page__panel h1 {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(52px, 7.2vw, 104px);
+  font-weight: 500;
+  line-height: 0.9;
+  margin-top: 14px;
+  max-width: 100%;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.thanks-page__panel p:not(.eyebrow) {
+  color: rgba(245, 234, 216, 0.82);
+  font-size: clamp(18px, 2vw, 24px);
+  margin-top: 28px;
+  max-width: 720px;
+}
+
+.thanks-page__actions {
+  display: grid;
+  gap: 14px;
+  min-width: min(100%, 260px);
+}
+
+@media (max-width: 1100px) {
+  .menu-page .menu-page__header,
+  .menu-page .menu-category {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .menu-page .menu-page__header {
+    gap: 42px;
+  }
+
+  .menu-page .menu-page__meta {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+    text-align: center;
+  }
+
+  .menu-page .menu-category {
+    gap: 44px;
+    min-height: auto;
+  }
+
+  .menu-page .menu-category__intro p {
+    max-width: 640px;
+  }
+}
+
+@media (max-width: 980px) {
+  .site-header {
+    align-items: center;
+    flex-direction: row;
+    gap: 18px;
+    padding: 18px var(--page-padding);
+  }
+
+  .brand {
+    height: 88px;
+    width: 88px;
+  }
+
+  .site-header.is-stuck .brand {
+    height: 92px;
+    width: 92px;
+  }
+
+  .brand__logo--sticky {
+    transform: scale(1.24);
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .main-nav {
+    align-content: start;
+    background: rgba(17, 10, 7, 0.94);
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.4);
+    display: none;
+    gap: 0;
+    grid-auto-rows: max-content;
+    left: var(--page-padding);
+    max-height: min(360px, calc(100svh - 122px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    position: absolute;
+    right: var(--page-padding);
+    top: calc(100% + 8px);
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .site-header.is-open .main-nav {
+    display: grid;
+  }
+
+  .main-nav a {
+    border-bottom: 1px solid rgba(200, 184, 149, 0.18);
+    color: rgba(243, 231, 211, 0.92);
+    font-size: 15px;
+    padding: 16px 18px;
+  }
+
+  .site-header.is-stuck .main-nav a {
+    color: rgba(243, 231, 211, 0.92);
+  }
+
+  .main-nav a:hover,
+  .main-nav a[aria-current="page"],
+  .site-header.is-stuck .main-nav a:hover,
+  .site-header.is-stuck .main-nav a[aria-current="page"] {
+    color: var(--color-gold);
+  }
+
+  .main-nav a:last-child {
+    border-bottom: 0;
+  }
+
+  .hero__content {
+    justify-self: start;
+    margin-right: 0;
+    max-width: 680px;
+    padding: 210px 0 70px;
+  }
+
+  .hero__shade {
+    background:
+      linear-gradient(180deg, rgba(11, 9, 7, 0.2), rgba(21, 17, 14, 0.96) 84%),
+      linear-gradient(90deg, rgba(11, 9, 7, 0.18), rgba(11, 9, 7, 0.72));
+  }
+
+  .signature__grid,
+  .story,
+  .menu-preview,
+  .menu-page__header,
+  .menu-category,
+  .reservation-page__hero,
+  .reservation-page__grid,
+  .contact-page__hero,
+  .contact-page__layout,
+  .gallery-hero,
+  .gallery-category__header,
+  .gallery-funnel,
+  .thanks-page__panel,
+  .reservation-card,
+  .contact-strip,
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .dish-card,
+  .story__panel {
+    min-height: 330px;
+  }
+
+  .menu-preview__image {
+    min-height: 420px;
+  }
+
+  .menu-page {
+    padding-top: 210px;
+  }
+
+  .reservation-page {
+    padding-top: 210px;
+  }
+
+  .contact-page {
+    padding-top: 210px;
+  }
+
+  .thanks-page {
+    padding-top: 210px;
+  }
+
+  .gallery-page {
+    padding-top: 210px;
+  }
+
+  .gallery-hero__preview {
+    max-width: 520px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .menu-page__meta {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 420px;
+    text-align: left;
+  }
+
+  .menu-category {
+    min-height: auto;
+  }
+
+  .menu-dish {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .reservation-card__visual {
+    min-height: 220px;
+  }
+
+  .contact-page__side {
+    grid-template-rows: auto;
+    height: auto;
+  }
+
+  .contact-page__side .contact-info-panel {
+    min-height: 300px;
+  }
+
+  .site-footer__brand {
+    text-align: left;
+  }
+
+  .site-footer__links--right {
+    justify-items: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    align-items: center;
+    background: transparent;
+    border-bottom-color: transparent;
+    backdrop-filter: none;
+    flex-direction: row;
+    padding: 14px var(--page-padding);
+    position: fixed;
+    z-index: 40;
+    -webkit-backdrop-filter: none;
+  }
+
+  .brand {
+    height: 76px;
+    width: 76px;
+  }
+
+  .site-header.is-stuck .brand {
+    height: 88px;
+    width: 88px;
+  }
+
+  .brand__logo--sticky {
+    transform: scale(1.24);
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .main-nav {
+    background: rgba(17, 10, 7, 0.94);
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.4);
+    display: none;
+    gap: 0;
+    align-content: start;
+    grid-auto-rows: max-content;
+    left: var(--page-padding);
+    max-height: min(320px, calc(100svh - 112px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    position: absolute;
+    right: var(--page-padding);
+    top: calc(100% + 8px);
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .site-header.is-open .main-nav {
+    display: grid;
+  }
+
+  .main-nav a {
+    border-bottom: 1px solid rgba(200, 184, 149, 0.18);
+    color: rgba(243, 231, 211, 0.92);
+    font-size: 15px;
+    padding: 16px 18px;
+  }
+
+  .site-header.is-stuck .main-nav a {
+    color: rgba(243, 231, 211, 0.92);
+  }
+
+  .main-nav a:hover,
+  .main-nav a[aria-current="page"],
+  .site-header.is-stuck .main-nav a:hover,
+  .site-header.is-stuck .main-nav a[aria-current="page"] {
+    color: var(--color-gold);
+  }
+
+  .main-nav a:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    align-items: center;
+    flex-direction: row;
+    gap: 18px;
+    padding: 14px var(--page-padding);
+  }
+
+  .brand {
+    height: 76px;
+    width: 76px;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .main-nav {
+    background: rgba(17, 10, 7, 0.94);
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.4);
+    display: none;
+    gap: 0;
+    align-content: start;
+    grid-auto-rows: max-content;
+    left: var(--page-padding);
+    max-height: min(320px, calc(100svh - 112px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    position: absolute;
+    right: var(--page-padding);
+    top: calc(100% + 8px);
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .site-header.is-open .main-nav {
+    display: grid;
+  }
+
+  .main-nav a {
+    border-bottom: 1px solid rgba(200, 184, 149, 0.18);
+    font-size: 15px;
+    padding: 16px 18px;
+  }
+
+  .main-nav a:last-child {
+    border-bottom: 0;
+  }
+
+  .hero {
+    min-height: 90svh;
+  }
+
+  .hero__content {
+    padding-top: 190px;
+  }
+
+  .hero h1 {
+    font-size: clamp(38px, 10.5vw, 68px);
+  }
+
+  .menu-page {
+    padding-top: 178px;
+  }
+
+  .menu-page h1 {
+    font-size: clamp(30px, 8.8vw, 62px);
+    max-width: 100%;
+  }
+
+  .reservation-page {
+    padding-top: 178px;
+  }
+
+  .reservation-page__content h1 {
+    font-size: clamp(30px, 8.8vw, 62px);
+    max-width: 100%;
+  }
+
+  .contact-page {
+    padding-top: 178px;
+  }
+
+  .thanks-page {
+    padding-top: 178px;
+  }
+
+  .gallery-page {
+    padding-top: 178px;
+  }
+
+  .contact-page__hero h1 {
+    font-size: clamp(32px, 9.2vw, 64px);
+  }
+
+  .thanks-page__panel h1 {
+    font-size: clamp(32px, 9.2vw, 64px);
+  }
+
+  .thanks-page__actions {
+    width: 100%;
+  }
+
+  .gallery-hero h1 {
+    font-size: clamp(30px, 8.8vw, 62px);
+  }
+
+  .gallery-grid,
+  .gallery-hero__preview {
+    gap: 14px;
+  }
+
+  .gallery-hero__preview {
+    grid-template-rows: none;
+    height: auto;
+  }
+
+  .gallery-tile,
+  .gallery-hero__tile {
+    padding: 14px;
+  }
+
+  .gallery-hero__tile {
+    aspect-ratio: 1.22;
+    min-height: 128px;
+  }
+
+  .contact-form__grid,
+  .contact-info-panel dl {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-info-panel dd {
+    text-align: left;
+    white-space: normal;
+  }
+
+  .menu-slider__bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .menu-arrows {
+    justify-content: space-between;
+  }
+
+  .menu-arrow {
+    height: 52px;
+    width: 52px;
+  }
+
+  .menu-dish {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-dish strong {
+    text-align: left;
+    white-space: normal;
+  }
+
+  .menu-page__booking {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .site-footer__brand {
+    order: 1;
+    text-align: left;
+  }
+
+  .site-footer__logo-wrap {
+    height: 118px;
+    margin: 0 0 22px;
+    width: 118px;
+  }
+
+  .site-footer__links {
+    order: 2;
+  }
+
+  .site-footer__links--right {
+    order: 3;
+  }
+
+  .hero__actions,
+  .button {
+    width: 100%;
+  }
+
+  .menu-item {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-item strong {
+    white-space: normal;
+  }
+
+  .hours-card,
+  .contact-card {
+    padding: 28px;
+  }
+
+  .hours-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .hours-card dd,
+  .reservation-info-card dd {
+    text-align: left;
+  }
+
+  .reservation-info-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .reservation-info-card a:not(.button),
+  .reservation-info-card dd {
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(
+    .button,
+    .dish-card,
+    .story__panel,
+    .reservation-card,
+    .hours-card,
+    .contact-card,
+    .gallery-hero__tile,
+    .gallery-tile,
+    .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel,
+  .thanks-page__panel
+  ):hover::before,
+  :is(
+    .button,
+    .dish-card,
+    .story__panel,
+    .reservation-card,
+    .hours-card,
+    .contact-card,
+    .gallery-hero__tile,
+    .gallery-tile,
+    .gallery-step,
+  .reservation-info-card,
+  .contact-form,
+  .contact-info-panel,
+  .thanks-page__panel
+  ):hover::after {
+    animation: none;
+  }
+}

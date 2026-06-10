@@ -1,0 +1,131 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const reservationUrl = "https://gastronaut.ai/reservations/fass-und-flamme-bad-kissingen";
+
+const reservationSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Tisch reservieren bei Fass & Flamme Steakhouse Bad Kissingen",
+  url: "https://fass-und-flamme.de/reservierung/",
+  description: "Online Tisch reservieren bei Fass & Flamme Steakhouse in Bad Kissingen.",
+  mainEntity: {
+    "@type": "Restaurant",
+    name: "Fass & Flamme Steakhouse",
+    telephone: "+4915251812634",
+    email: "info@hotel-weisses-haus.com",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Kurhausstraße 14",
+      postalCode: "97688",
+      addressLocality: "Bad Kissingen",
+      addressCountry: "DE",
+    },
+    potentialAction: {
+      "@type": "ReserveAction",
+      target: reservationUrl,
+      result: {
+        "@type": "FoodEstablishmentReservation",
+        name: "Tischreservierung",
+      },
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Tisch reservieren | Fass & Flamme Steakhouse Bad Kissingen"
+  description="Tisch online reservieren bei Fass & Flamme Steakhouse Bad Kissingen. Dry Aged Steaks, BBQ, Burger und Bier vom Fass von Mittwoch bis Sonntag ab 17 Uhr."
+  canonicalPath="/reservierung/"
+  image="/images/reservation-steak-night.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(reservationSchema)}></script>
+
+  <header class="site-header" aria-label="Hauptnavigation">
+    <a class="brand" href="/" aria-label="Fass & Flamme Startseite">
+      <img class="brand__logo brand__logo--default" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+      <img class="brand__logo brand__logo--sticky" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" aria-hidden="true" />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" data-site-nav>
+      <a href="/">Start</a>
+      <a href="/galerie/">Galerie</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/reservierung/" aria-current="page">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+    </nav>
+  </header>
+
+  <main class="reservation-page">
+    <section class="reservation-page__hero" aria-labelledby="reservation-page-title">
+      <div class="reservation-page__content">
+        <p class="eyebrow">Online Reservierung</p>
+        <h1 id="reservation-page-title">Tisch reservieren</h1>
+        <p>
+          Sichern Sie Ihren Abend bei Fass &amp; Flamme: Dry Aged Steaks, BBQ vom Grill, Burger und Fassbier in Bad Kissingen.
+        </p>
+        <div class="reservation-page__actions">
+          <a class="button button--primary" href={reservationUrl} data-reservation-trigger>Online reservieren</a>
+          <a class="button button--ghost" href="tel:+4915251812634">Anrufen</a>
+        </div>
+      </div>
+      <div class="reservation-page__image" aria-hidden="true"></div>
+    </section>
+
+    <section class="reservation-page__grid" aria-label="Reservierungsdetails">
+      <article class="reservation-info-card">
+        <p class="eyebrow">Opening Hours</p>
+        <h2>Geöffnet</h2>
+        <dl>
+          <dt>Montag</dt>
+          <dd>Ruhetag</dd>
+          <dt>Dienstag</dt>
+          <dd>Ruhetag</dd>
+          <dt>Mittwoch - Sonntag</dt>
+          <dd>17:00 - 22:00</dd>
+        </dl>
+      </article>
+
+      <article class="reservation-info-card reservation-info-card--photo">
+        <div>
+          <p class="eyebrow">Gruppen</p>
+          <h2>Steakabend planen</h2>
+          <p>Für größere Runden, Steakplatten und Gruppenabende stimmen wir die Reservierung gern direkt ab.</p>
+        </div>
+        <a class="button button--primary" href={reservationUrl} data-reservation-trigger>Gruppe anfragen</a>
+      </article>
+
+      <address class="reservation-info-card reservation-info-card--contact">
+        <p class="eyebrow">Kontakt</p>
+        <h2>Direkt erreichen</h2>
+        <span>Kurhausstraße 14, 97688 Bad Kissingen</span>
+        <a href="tel:+4915251812634">01525 1812634</a>
+        <a href="mailto:info@hotel-weisses-haus.com">info@hotel-weisses-haus.com</a>
+      </address>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__links">
+      <a href="/">Start</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/galerie/">Galerie</a>
+    </div>
+    <div class="site-footer__brand">
+      <div class="site-footer__logo-wrap">
+        <img class="site-footer__logo site-footer__logo--light" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" loading="lazy" />
+        <img class="site-footer__logo site-footer__logo--original" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" loading="lazy" aria-hidden="true" />
+      </div>
+      <p>Dry Aged Steaks, BBQ und Bier vom Fass in Bad Kissingen.</p>
+    </div>
+    <div class="site-footer__links site-footer__links--right">
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="tel:+4915251812634">Anrufen</a>
+    </div>
+  </footer>
+</BaseLayout>

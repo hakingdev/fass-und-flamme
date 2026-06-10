@@ -1,0 +1,236 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const reservationUrl = "https://gastronaut.ai/reservations/fass-und-flamme-bad-kissingen";
+
+const galleryCategories = [
+  {
+    id: "steaks-grill",
+    eyebrow: "Steaks & Grill",
+    title: "Was zuerst Appetit macht",
+    description: "Cuts, Grillspuren, Saucen und Teller, die direkt zur Reservierung führen sollen.",
+    slots: ["Dry Aged Cut", "Ribeye", "BBQ Ribs", "Grillplatte"],
+    positions: ["52% 50%", "50% 58%", "50% 55%", "50% 52%"],
+    images: [
+      "/images/gallery/steaks-dry-aged.webp",
+      "/images/gallery/steaks-ribeye.webp",
+      "/images/gallery/steaks-bbq-ribs.webp",
+      "/images/gallery/steaks-grillplatte.webp",
+    ],
+  },
+  {
+    id: "ambiente",
+    eyebrow: "Abend & Ambiente",
+    title: "Der Raum vor dem ersten Bier",
+    description: "Atmosphäre, Licht, Tische und Details, damit Gäste den Abend schon vor dem Besuch spüren.",
+    slots: ["Gastraum", "Bar", "Tischdetails", "Fassbier"],
+    positions: ["44% 54%", "50% 58%", "50% 72%", "54% 50%"],
+    images: [
+      "/images/gallery/ambiente-gastraum.webp",
+      "/images/gallery/ambiente-bar.webp",
+      "/images/gallery/ambiente-tischdetails.webp",
+      "/images/gallery/ambiente-fassbier.webp",
+    ],
+  },
+  {
+    id: "gruppen",
+    eyebrow: "Gruppen & Momente",
+    title: "Warum man zusammen kommt",
+    description: "Platten zum Teilen, größere Runden und Motive, die direkt zur Gruppenanfrage passen.",
+    slots: ["Freunde", "Bierteller", "Steakabend", "Runde"],
+    positions: ["50% 48%", "50% 52%", "52% 58%", "50% 50%"],
+    images: [
+      "/images/gallery/gruppen-freunde.webp",
+      "/images/gallery/gruppen-bierteller.webp",
+      "/images/gallery/gruppen-steakabend.webp",
+      "/images/gallery/gruppen-runde.webp",
+    ],
+  },
+];
+
+const funnelSteps = [
+  {
+    title: "Speisekarte ansehen",
+    text: "Nach dem ersten Eindruck sollen Gäste direkt sehen, welche Steaks, Burger und BBQ-Gerichte sie erwarten.",
+    href: "/speisekarte/",
+    label: "Zur Speisekarte",
+  },
+  {
+    title: "Tisch sichern",
+    text: "Für Paare und kleine Gruppen ist die Reservierung der kürzeste Weg vom Bild zum Besuch.",
+    href: reservationUrl,
+    label: "Online reservieren",
+    reservation: true,
+  },
+  {
+    title: "Gruppe abstimmen",
+    text: "Für Steakplatten, größere Runden oder besondere Anlässe führt der zweite Weg zum Kontakt.",
+    href: "/kontakt/",
+    label: "Kontakt aufnehmen",
+  },
+];
+
+const gallerySchema = {
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  name: "Galerie Fass & Flamme Steakhouse Bad Kissingen",
+  url: "https://fass-und-flamme.de/galerie/",
+  description: "Einblicke in Steaks, BBQ, Ambiente und Gruppenabende bei Fass & Flamme Steakhouse in Bad Kissingen.",
+};
+---
+
+<BaseLayout
+  title="Galerie | Fass & Flamme Steakhouse Bad Kissingen"
+  description="Galerie von Fass & Flamme Steakhouse in Bad Kissingen: Steaks, BBQ, Fassbier, Ambiente und Gruppenabende."
+  canonicalPath="/galerie/"
+  image="/images/hero-steakhouse.png"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(gallerySchema)}></script>
+
+  <header class="site-header" aria-label="Hauptnavigation">
+    <a class="brand" href="/" aria-label="Fass & Flamme Startseite">
+      <img class="brand__logo brand__logo--default" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+      <img class="brand__logo brand__logo--sticky" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" aria-hidden="true" />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" data-site-nav>
+      <a href="/">Start</a>
+      <a href="/galerie/" aria-current="page">Galerie</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+    </nav>
+  </header>
+
+  <main class="gallery-page">
+    <section class="gallery-hero" aria-labelledby="gallery-title">
+      <div class="gallery-hero__content">
+        <p class="eyebrow">Galerie</p>
+        <h1 id="gallery-title">Einblicke ins Steakhouse</h1>
+        <p class="gallery-hero__copy">
+          Bilder sollen nicht nur zeigen, was auf den Teller kommt. Sie sollen Lust auf einen Abend mit Steaks, BBQ und Fassbier in Bad Kissingen machen.
+        </p>
+        <div class="gallery-hero__actions" aria-label="Galerie Aktionen">
+          <a class="button button--primary" href={reservationUrl} data-reservation-trigger>Tisch reservieren</a>
+          <a class="button button--ghost" href="/kontakt/">Gruppe anfragen</a>
+        </div>
+      </div>
+
+      <div class="gallery-hero__preview" aria-label="Einblicke in das Steakhouse">
+        <div
+          class="gallery-hero__tile gallery-hero__tile--steak"
+          role="img"
+          aria-label="Gegrilltes Steak mit Kräuterbutter, Beilagen und Rotwein"
+        >
+          <span aria-hidden="true">Steak</span>
+        </div>
+        <div
+          class="gallery-hero__tile gallery-hero__tile--grill"
+          role="img"
+          aria-label="Große Grillplatte mit Fleisch, Gemüse und hausgemachten Saucen"
+        >
+          <span aria-hidden="true">Grill</span>
+        </div>
+        <div
+          class="gallery-hero__tile gallery-hero__tile--bar"
+          role="img"
+          aria-label="Bar im Fass und Flamme Steakhouse"
+        >
+          <span aria-hidden="true">Bar</span>
+        </div>
+        <div
+          class="gallery-hero__tile gallery-hero__tile--abend"
+          role="img"
+          aria-label="Gastraum des Fass und Flamme Steakhouse am Abend"
+        >
+          <span aria-hidden="true">Abend</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery-categories" aria-labelledby="gallery-board-title">
+      <div class="section__heading section__heading--left">
+        <p class="eyebrow">Foto Struktur</p>
+        <h2 id="gallery-board-title">Sortiert wie ein Besuch</h2>
+      </div>
+
+      {
+        galleryCategories.map((category) => (
+          <section class="gallery-category" aria-labelledby={`${category.id}-title`}>
+            <div class="gallery-category__header">
+              <div>
+                <p class="eyebrow">{category.eyebrow}</p>
+                <h2 id={`${category.id}-title`}>{category.title}</h2>
+              </div>
+              <p>{category.description}</p>
+            </div>
+
+            <div class="gallery-grid">
+              {category.slots.map((slot, index) => (
+                <figure
+                  class:list={["gallery-tile", category.images[index] && "gallery-tile--photo"]}
+                  style={category.images[index]
+                    ? `--gallery-image: url("${category.images[index]}"); --gallery-position: ${category.positions[index] ?? "center"}`
+                    : undefined}
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <figcaption>{slot}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </section>
+
+    <section class="section gallery-funnel" aria-labelledby="gallery-funnel-title">
+      <div class="gallery-funnel__content">
+        <p class="eyebrow">Nächster Schritt</p>
+        <h2 id="gallery-funnel-title">Vom Eindruck zur Reservierung</h2>
+        <p>
+          Die Galerie führt zuerst über Stimmung und Appetit. Danach bekommt jeder Gast einen klaren nächsten Schritt: Menü ansehen,
+          Tisch reservieren oder eine Gruppe direkt abstimmen.
+        </p>
+      </div>
+
+      <div class="gallery-funnel__steps">
+        {
+          funnelSteps.map((step, index) => (
+            <article class="gallery-step">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+              <a class={index === 1 ? "button button--primary" : "button button--ghost"} href={step.href} data-reservation-trigger={step.reservation ? true : undefined}>
+                {step.label}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__links">
+      <a href="/">Start</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/galerie/">Galerie</a>
+    </div>
+    <div class="site-footer__brand">
+      <div class="site-footer__logo-wrap">
+        <img class="site-footer__logo site-footer__logo--light" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" loading="lazy" />
+        <img class="site-footer__logo site-footer__logo--original" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" loading="lazy" aria-hidden="true" />
+      </div>
+      <p>Dry Aged Steaks, BBQ und Bier vom Fass in Bad Kissingen.</p>
+    </div>
+    <div class="site-footer__links site-footer__links--right">
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="tel:+4915251812634">Anrufen</a>
+    </div>
+  </footer>
+</BaseLayout>

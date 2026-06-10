@@ -1,0 +1,107 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  image?: string;
+  robots?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = "/",
+  image = "/images/hero-steakhouse.png",
+  robots,
+} = Astro.props;
+
+const canonical = new URL(canonicalPath, Astro.site ?? "https://fass-und-flamme.de").toString();
+const ogImage = new URL(image, Astro.site ?? "https://fass-und-flamme.de").toString();
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#19100B" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Montserrat:wght@600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+    <div class="gastronaut-plugin-anchor" aria-hidden="true">
+      <script
+        is:inline
+        type="text/javascript"
+        src="https://api.gastronaut.ai/v02/reservations/plugin/fass-und-flamme-bad-kissingen/overlayWithBtn"
+      ></script>
+    </div>
+    <script is:inline>
+      const reservationUrl = "https://gastronaut.ai/reservations/fass-und-flamme-bad-kissingen";
+
+      document.querySelectorAll(".site-header").forEach((header) => {
+        const toggle = header.querySelector(".nav-toggle");
+        const nav = header.querySelector("[data-site-nav]");
+        if (!toggle || !nav) return;
+
+        const syncStickyState = () => {
+          header.classList.toggle("is-stuck", window.scrollY > 24);
+        };
+
+        syncStickyState();
+        window.addEventListener("scroll", syncStickyState, { passive: true });
+
+        toggle.addEventListener("click", () => {
+          const isOpen = header.classList.toggle("is-open");
+          toggle.setAttribute("aria-expanded", String(isOpen));
+          toggle.setAttribute("aria-label", isOpen ? "Menü schließen" : "Menü öffnen");
+        });
+
+        nav.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            header.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.setAttribute("aria-label", "Menü öffnen");
+          });
+        });
+      });
+
+      document.querySelectorAll("[data-reservation-trigger]").forEach((trigger) => {
+        trigger.addEventListener("click", (event) => {
+          event.preventDefault();
+
+          if (window.innerWidth <= 600) {
+            window.open(reservationUrl, "_blank", "noopener");
+            return;
+          }
+
+          const pluginButton = document.querySelector(".gastronaut-plugin-anchor button");
+          if (pluginButton instanceof HTMLButtonElement) {
+            pluginButton.click();
+            return;
+          }
+
+          window.location.href = reservationUrl;
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fass-und-flamme.de/sitemap-index.xml
