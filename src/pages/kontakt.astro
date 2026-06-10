@@ -197,12 +197,12 @@ const contactSchema = {
               "Content-Type": "application/json",
             },
           });
-          const payload = await response.json().catch(() => null);
+          const responsePayload = await response.json().catch(() => null);
 
-          if (!response.ok) throw new Error(payload?.message || "Der Versand konnte nicht abgeschlossen werden.");
+          if (!response.ok) throw new Error(responsePayload?.message || "Der Versand konnte nicht abgeschlossen werden.");
 
           form.reset();
-          if (status) status.textContent = payload?.message || "Vielen Dank. Ihre Nachricht wurde gesendet.";
+          if (status) status.textContent = responsePayload?.message || "Vielen Dank. Ihre Nachricht wurde gesendet.";
           window.location.assign("/kontakt/danke/");
         } catch (error) {
           if (status) {
