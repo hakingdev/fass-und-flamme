@@ -32,6 +32,21 @@ const cleanMessage = (value: FormDataEntryValue | null) =>
     .trim()
     .slice(0, MAX_MESSAGE_LENGTH);
 
+const readContactPayload = async (request: Request) => {
+  const contentType = request.headers.get("content-type") ?? "";
+
+  if (contentType.includes("application/json")) {
+    return await request.json().catch(() => ({}));
+  }
+
+  return await request.formData();
+};
+
+const getPayloadField = (payload: FormData | Record<string, unknown>, key: string) => {
+  if (payload instanceof FormData) return payload.get(key);
+  return payload[key] ?? null;
+};
+
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const encodeHeader = (value: string) => `=?UTF-8?B?${Buffer.from(value.replace(/[\r\n]+/g, " "), "utf8").toString("base64")}?=`;
@@ -177,13 +192,13 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ ok: false, message: "SMTP ist noch nicht konfiguriert." }, 500);
   }
 
-  const form = await request.formData();
-  const name = clean(form.get("name"));
-  const email = clean(form.get("email"), 120);
-  const phone = clean(form.get("phone"), 60) || "Nicht angegeben";
-  const topic = clean(form.get("topic"));
-  const message = cleanMessage(form.get("message"));
-  const privacy = clean(form.get("privacy"));
+  const payload = await readContactPayload(request);
+  const name = clean(getPayloadField(payload, "name"));
+  const email = clean(getPayloadField(payload, "email"), 120);
+  const phone = clean(getPayloadField(payload, "phone"), 60) || "Nicht angegeben";
+  const topic = clean(getPayloadField(payload, "topic"));
+  const message = cleanMessage(getPayloadField(payload, "message"));
+  const privacy = clean(getPayloadField(payload, "privacy"));
 
   if (!name || !email || !topic || !message || privacy !== "accepted") {
     return json({ ok: false, message: "Bitte füllen Sie alle Pflichtfelder aus." }, 400);

@@ -187,10 +187,15 @@ const contactSchema = {
         if (status) status.textContent = "Nachricht wird vorbereitet...";
 
         try {
+          const formData = new FormData(form);
+          const payload = Object.fromEntries(formData.entries());
           const response = await fetch(form.action, {
             method: form.method,
-            body: new FormData(form),
-            headers: { Accept: "application/json" },
+            body: JSON.stringify(payload),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           });
           const payload = await response.json().catch(() => null);
 
