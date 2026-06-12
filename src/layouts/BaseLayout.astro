@@ -99,6 +99,15 @@ const robotsContent = robots ?? "index, follow, max-image-preview:large";
     <script is:inline>
       const reservationUrl = "https://gastronaut.ai/reservations/fass-und-flamme-bad-kissingen";
 
+      const trackReservationSchedule = () => {
+        if (typeof window.fbq !== "function") return;
+
+        window.fbq("track", "Schedule", {
+          content_name: "Fass & Flamme Tischreservierung",
+          content_category: "Restaurant Reservation",
+        });
+      };
+
       document.querySelectorAll(".site-header").forEach((header) => {
         const toggle = header.querySelector(".nav-toggle");
         const nav = header.querySelector("[data-site-nav]");
@@ -129,6 +138,7 @@ const robotsContent = robots ?? "index, follow, max-image-preview:large";
       document.querySelectorAll("[data-reservation-trigger]").forEach((trigger) => {
         trigger.addEventListener("click", (event) => {
           event.preventDefault();
+          trackReservationSchedule();
 
           if (window.innerWidth <= 600) {
             window.open(reservationUrl, "_blank", "noopener");
