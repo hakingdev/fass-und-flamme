@@ -4,5 +4,5 @@ import vercel from "@astrojs/vercel";
 export default defineConfig({
   adapter: vercel(),
   output: "server",
-  site: "https://fass-und-flamme.de",
+  site: "https://fassflamme.de",
 });

@@ -1,0 +1,315 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const reservationUrl = "https://gastronaut.ai/reservations/fass-und-flamme-bad-kissingen";
+
+const matches = [
+  {
+    date: "14.06.2026",
+    day: "Sonntag",
+    time: "19:00",
+    opponent: "Curaçao",
+    note: "Erstes Gruppenspiel - zusammen ankommen, anstoßen und die WM starten.",
+    flagClass: "wm-flag--curacao",
+  },
+  {
+    date: "20.06.2026",
+    day: "Samstag",
+    time: "22:00",
+    opponent: "Cote d’Ivoire",
+    note: "Prime-Time am Samstagabend mit Steakhouse-Küche und Fassbier.",
+    flagClass: "wm-flag--ivory",
+  },
+  {
+    date: "25.06.2026",
+    day: "Donnerstag",
+    time: "22:00",
+    opponent: "Ecuador",
+    note: "Gruppenfinale live - perfekt für Freunde, Teams und große Runden.",
+    flagClass: "wm-flag--ecuador",
+  },
+];
+
+const offers = [
+  {
+    number: "1",
+    title: "Anpfiff Set",
+    items: ["2 x Bier 0,5 l", "Knoblauch-Croutons"],
+    oldPrice: "15 €",
+    price: "12 €",
+    savings: "2,10 €",
+  },
+  {
+    number: "2",
+    title: "Fan-Klassiker",
+    items: ["2 x Bier 0,5 l", "Zwiebelringe"],
+    oldPrice: "19 €",
+    price: "16 €",
+    savings: "2,10 €",
+  },
+  {
+    number: "3",
+    title: "Volltreffer Set",
+    items: ["2 x Bier 0,5 l", "Buffalo Wings"],
+    oldPrice: "20 €",
+    price: "17 €",
+    savings: "2,10 €",
+  },
+  {
+    number: "4",
+    title: "Verlängerung Set",
+    items: ["2 x Bier 0,5 l", "Tintenfischringe"],
+    oldPrice: "22 €",
+    price: "18 €",
+    savings: "2,10 €",
+  },
+  {
+    number: "5",
+    title: "Auswärtssieg Set",
+    items: ["2 x Bier 0,5 l", "Pfefferoni"],
+    oldPrice: "21 €",
+    price: "18 €",
+    savings: "2,10 €",
+  },
+  {
+    number: "6",
+    title: "Halbzeit-Paket",
+    serves: "2-3 Personen",
+    items: ["4 x Bier 0,5 l", "Buffalo Wings", "Knoblauch-Croutons"],
+    oldPrice: "35 €",
+    price: "29 €",
+    savings: "5,10 €",
+  },
+  {
+    number: "7",
+    title: "Stadion-Platte",
+    serves: "3-4 Personen",
+    items: ["4 x Bier 0,5 l", "Buffalo Wings", "Zwiebelringe", "Knoblauch-Croutons"],
+    oldPrice: "44 €",
+    price: "37 €",
+    savings: "6,10 €",
+  },
+  {
+    number: "8",
+    title: "F&F Fanplatte",
+    serves: "4-6 Personen",
+    badge: "Beliebt bei Gruppen",
+    items: ["6 x Bier 0,5 l", "Buffalo Wings", "Tintenfischringe", "Zwiebelringe", "Knoblauch-Croutons"],
+    oldPrice: "66 €",
+    price: "54 €",
+    savings: "11,10 €",
+  },
+  {
+    number: "9",
+    title: "Meisterpaket",
+    badge: "Top Deal",
+    items: ["8 x Bier 0,5 l", "Buffalo Wings", "Tintenfischringe", "Zwiebelringe", "Knoblauch-Croutons", "Pfefferoni"],
+    oldPrice: "87 €",
+    price: "69 €",
+    savings: "17,10 €",
+  },
+];
+
+const wmSchema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: "WM 2026 Live bei Fass & Flamme",
+  url: "https://fassflamme.de/wm-2026/",
+  description: "Deutschland Gruppenspiele der WM 2026 live im Fass & Flamme Steakhouse Bad Kissingen.",
+  location: {
+    "@type": "Restaurant",
+    name: "Fass & Flamme Steakhouse",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Kurhausstraße 14",
+      postalCode: "97688",
+      addressLocality: "Bad Kissingen",
+      addressCountry: "DE",
+    },
+  },
+  organizer: {
+    "@type": "Restaurant",
+    name: "Fass & Flamme Steakhouse",
+    url: "https://fassflamme.de/",
+  },
+};
+---
+
+<BaseLayout
+  title="WM 2026 Live | Fass & Flamme Bad Kissingen"
+  description="WM 2026 live bei Fass & Flamme Steakhouse Bad Kissingen: Deutschland Gruppenspiele, Reservierung und kommende Fussball-Angebote."
+  canonicalPath="/wm-2026/"
+  image="/images/reservation-dinner-bier.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(wmSchema)}></script>
+
+  <header class="site-header" aria-label="Hauptnavigation">
+    <a class="brand" href="/" aria-label="Fass & Flamme Startseite">
+      <img class="brand__logo brand__logo--default" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+      <img class="brand__logo brand__logo--sticky" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" aria-hidden="true" />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" data-site-nav>
+      <a href="/">Start</a>
+      <a href="/galerie/">Galerie</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/wm-2026/" aria-current="page">WM 2026</a>
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+    </nav>
+  </header>
+
+  <main class="wm-page">
+    <section class="wm-hero" aria-labelledby="wm-page-title">
+      <div class="wm-hero__content">
+        <p class="eyebrow">WM 2026 live</p>
+        <h1 id="wm-page-title">
+          <span>Deutschland</span>
+          <span>Spielplan</span>
+        </h1>
+        <p>
+          Alle Gruppenspiele live bei Fass &amp; Flamme in Bad Kissingen: große Bildschirme, kühle Getränke,
+          Steakhouse-Küche und beste Stimmung.
+        </p>
+        <div class="wm-hero__actions">
+          <a class="button button--primary" href={reservationUrl} data-reservation-trigger>Match reservieren</a>
+          <a class="button button--ghost" href="#wm-angebote">Angebote ansehen</a>
+        </div>
+      </div>
+
+      <div class="wm-hero__poster" aria-label="WM 2026 Live bei Fass & Flamme">
+        <img src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+        <div>
+          <span>Live</span>
+          <strong>WM 2026</strong>
+        </div>
+        <p>Fussball, Fassbier &amp; Steakhouse-Abende</p>
+      </div>
+    </section>
+
+    <section class="wm-benefits" aria-label="WM Vorteile">
+      <article>
+        <span>01</span>
+        <strong>Große Bildschirme</strong>
+      </article>
+      <article>
+        <span>02</span>
+        <strong>Kühle Getränke</strong>
+      </article>
+      <article>
+        <span>03</span>
+        <strong>Beste Stimmung</strong>
+      </article>
+    </section>
+
+    <section class="wm-section" aria-labelledby="wm-matches-title">
+      <div class="wm-section__header">
+        <div>
+          <p class="eyebrow">Gruppenphase</p>
+          <h2 id="wm-matches-title">Deutschland spielt gegen</h2>
+        </div>
+        <p>Reservieren Sie frühzeitig für die Deutschland-Spiele. Für Gruppen stimmen wir Tische und Angebote gern direkt ab.</p>
+      </div>
+
+      <div class="wm-match-grid">
+        {
+          matches.map((match) => (
+            <article class="wm-match-card">
+              <div class="wm-match-card__date">
+                <span>{match.day}</span>
+                <strong>{match.date}</strong>
+              </div>
+              <div class="wm-match-card__time">
+                <span>Anpfiff</span>
+                <strong>{match.time}</strong>
+              </div>
+              <div class="wm-match-card__teams">
+                <span class="wm-flag wm-flag--germany" aria-hidden="true"></span>
+                <strong>Deutschland</strong>
+                <em>gegen</em>
+                <strong>{match.opponent}</strong>
+                <span class={`wm-flag ${match.flagClass}`} aria-hidden="true"></span>
+              </div>
+              <p>{match.note}</p>
+              <a class="button button--primary" href={reservationUrl} data-reservation-trigger>Für diesen Match reservieren</a>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="wm-section wm-offers" id="wm-angebote" aria-labelledby="wm-offers-title">
+      <div class="wm-section__header">
+        <div>
+          <p class="eyebrow">Fussball-Angebote</p>
+          <h2 id="wm-offers-title">Combo-Sets für den Spielabend</h2>
+        </div>
+        <p>Gutes Essen, kaltes Bier und große Leidenschaft: unsere WM-Combos für kleine Runden, Gruppen und volle Spielabende.</p>
+      </div>
+
+      <div class="wm-offer-grid">
+        {
+          offers.map((offer) => (
+            <article class={`wm-offer-card${offer.badge ? " wm-offer-card--featured" : ""}`}>
+              <div class="wm-offer-card__body">
+                <span class="wm-offer-card__number">{offer.number}</span>
+                <div class="wm-offer-card__content">
+                  {offer.badge && <strong class="wm-offer-card__badge">{offer.badge}</strong>}
+                  <h3>{offer.title}</h3>
+                  {offer.serves && <em>{offer.serves}</em>}
+                  <ul>
+                    {offer.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="wm-offer-card__price">
+                  <span>statt <s>{offer.oldPrice}</s></span>
+                  <small>nur</small>
+                  <strong>{offer.price}</strong>
+                  <em>Sie sparen {offer.savings}</em>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="wm-final-cta" aria-labelledby="wm-final-title">
+      <p class="eyebrow">Jetzt planen</p>
+      <h2 id="wm-final-title">WM-Abend sichern</h2>
+      <p>Für Deutschland-Spiele, Gruppen und größere Runden empfehlen wir eine Reservierung vorab.</p>
+      <div class="wm-final-cta__actions">
+        <a class="button button--primary" href={reservationUrl} data-reservation-trigger>Tisch reservieren</a>
+        <a class="button button--ghost" href="/kontakt/">Gruppe anfragen</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__links">
+      <a href="/">Start</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/galerie/">Galerie</a>
+    </div>
+    <div class="site-footer__brand">
+      <div class="site-footer__logo-wrap">
+        <img class="site-footer__logo site-footer__logo--light" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" loading="lazy" />
+        <img class="site-footer__logo site-footer__logo--original" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" loading="lazy" aria-hidden="true" />
+      </div>
+      <p>Dry Aged Steaks, BBQ und Bier vom Fass in Bad Kissingen.</p>
+    </div>
+    <div class="site-footer__links site-footer__links--right">
+      <a href="/wm-2026/">WM 2026</a>
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="/impressum/">Impressum</a>
+      <a href="/datenschutz/">Datenschutz</a>
+    </div>
+  </footer>
+</BaseLayout>

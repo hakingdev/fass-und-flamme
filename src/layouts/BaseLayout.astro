@@ -6,6 +6,7 @@ interface Props {
   description: string;
   canonicalPath?: string;
   image?: string;
+  imageAlt?: string;
   robots?: string;
 }
 
@@ -13,12 +14,14 @@ const {
   title,
   description,
   canonicalPath = "/",
-  image = "/images/hero-steakhouse.png",
+  image = "/images/reservation-dinner-bier.jpg",
+  imageAlt = "Fass & Flamme Steakhouse Bad Kissingen",
   robots,
 } = Astro.props;
 
-const canonical = new URL(canonicalPath, Astro.site ?? "https://fass-und-flamme.de").toString();
-const ogImage = new URL(image, Astro.site ?? "https://fass-und-flamme.de").toString();
+const canonical = new URL(canonicalPath, Astro.site ?? "https://fassflamme.de").toString();
+const ogImage = new URL(image, Astro.site ?? "https://fassflamme.de").toString();
+const robotsContent = robots ?? "index, follow, max-image-preview:large";
 ---
 
 <!doctype html>
@@ -28,16 +31,34 @@ const ogImage = new URL(image, Astro.site ?? "https://fass-und-flamme.de").toStr
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {robots && <meta name="robots" content={robots} />}
+    <meta name="robots" content={robotsContent} />
+    <meta name="author" content="Fass & Flamme Steakhouse" />
+    <meta name="application-name" content="Fass & Flamme" />
     <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#19100B" />
+    <meta name="apple-mobile-web-app-title" content="Fass & Flamme" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="Fass & Flamme Steakhouse" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="675" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

@@ -38,7 +38,7 @@ const escapePhp = (value = "") => String(value).replace(/\\/g, "\\\\").replace(/
 
 const runStaticBuild = () =>
   new Promise((resolveBuild, rejectBuild) => {
-    const child = spawn("npm", ["run", "build:static"], {
+    const child = spawn("npm", ["run", "build:static:astro"], {
       cwd: root,
       env: {
         ...process.env,

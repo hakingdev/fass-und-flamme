@@ -149,7 +149,7 @@ const sendSmtpMail = async ({
 
   await waitForSecureConnect;
   await expect(["220"]);
-  await expect(["250"], "EHLO fass-und-flamme.de");
+  await expect(["250"], "EHLO fassflamme.de");
   await expect(["334"], "AUTH LOGIN");
   await expect(["334"], Buffer.from(username, "utf8").toString("base64"));
   await expect(["235"], Buffer.from(password, "utf8").toString("base64"));
@@ -166,7 +166,7 @@ const sendSmtpMail = async ({
     "Content-Type: text/plain; charset=UTF-8",
     "Content-Transfer-Encoding: 8bit",
     `Date: ${new Date().toUTCString()}`,
-    `Message-ID: <${Date.now()}.${Math.random().toString(16).slice(2)}@fass-und-flamme.de>`,
+    `Message-ID: <${Date.now()}.${Math.random().toString(16).slice(2)}@fassflamme.de>`,
     "",
     dotStuff(text),
     ".",

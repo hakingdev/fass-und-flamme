@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:static": "PUBLIC_CONTACT_ENDPOINT=/contact.php astro build --config astro.static.config.mjs",
+    "build:static": "node ./scripts/build-public-html.mjs",
+    "build:static:astro": "PUBLIC_CONTACT_ENDPOINT=/contact.php astro build --config astro.static.config.mjs",
     "build:public-html": "node ./scripts/build-public-html.mjs",
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs"

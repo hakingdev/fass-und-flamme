@@ -102,10 +102,15 @@ const restaurantSchema = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
   name: "Fass & Flamme Steakhouse",
+  url: "https://fassflamme.de/",
+  image: "https://fassflamme.de/images/reservation-dinner-bier.jpg",
+  logo: "https://fassflamme.de/images/fass-flamme-logo-site.png",
   servesCuisine: ["Steakhouse", "BBQ", "Burger"],
   priceRange: "€€",
   telephone: "+4915251812634",
   email: "info@hotel-weisses-haus.com",
+  hasMenu: "https://fassflamme.de/speisekarte/",
+  acceptsReservations: true,
   address: {
     "@type": "PostalAddress",
     streetAddress: "Kurhausstraße 14",
@@ -123,7 +128,7 @@ const restaurantSchema = {
 ---
 
 <BaseLayout
-  title="Fass & Flamme Steakhouse Bad Kissingen | Dry Aged Steaks & BBQ"
+  title="Fass & Flamme Bad Kissingen | Steakhouse & BBQ"
   description="Fass & Flamme Steakhouse in Bad Kissingen: Dry Aged Steaks, BBQ, Burger, Fisch, Bier vom Fass und Gruppenplatten. Jetzt Tisch reservieren."
 >
   <script type="application/ld+json" set:html={JSON.stringify(restaurantSchema)}></script>
@@ -146,6 +151,30 @@ const restaurantSchema = {
       <a href="/kontakt/">Kontakt</a>
     </nav>
   </header>
+
+  <div class="wm-popup" data-wm-popup aria-hidden="true">
+    <div class="wm-popup__backdrop" data-wm-popup-close></div>
+    <section class="wm-popup__panel" role="dialog" aria-modal="true" aria-labelledby="wm-popup-title" aria-describedby="wm-popup-copy">
+      <button class="wm-popup__close" type="button" aria-label="WM Hinweis schließen" data-wm-popup-close>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="wm-popup__media" aria-hidden="true">
+        <img src="/images/fass-flamme-logo-site.png" alt="" width="500" height="500" loading="eager" />
+      </div>
+      <div class="wm-popup__content">
+        <p class="eyebrow">WM 2026 live</p>
+        <h2 id="wm-popup-title">Deutschland anfeuern</h2>
+        <p id="wm-popup-copy">
+          Alle Gruppenspiele bei Fass &amp; Flamme: große Bildschirme, Fassbier, Steakhouse-Küche und Stimmung für die deutsche Elf.
+        </p>
+        <div class="wm-popup__actions">
+          <a class="button button--primary" href="/wm-2026/">Zum Spielplan</a>
+          <button class="button button--ghost" type="button" data-wm-popup-close>Später ansehen</button>
+        </div>
+      </div>
+    </section>
+  </div>
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
@@ -289,7 +318,47 @@ const restaurantSchema = {
     <div class="site-footer__links site-footer__links--right">
       <a href="/reservierung/">Reservierung</a>
       <a href="/kontakt/">Kontakt</a>
+      <a href="/impressum/">Impressum</a>
+      <a href="/datenschutz/">Datenschutz</a>
       <a href="tel:+4915251812634">Anrufen</a>
     </div>
   </footer>
+
+  <script is:inline>
+    const wmPopup = document.querySelector("[data-wm-popup]");
+    if (wmPopup instanceof HTMLElement) {
+      const firstLink = wmPopup.querySelector("a");
+
+      const openPopup = () => {
+        wmPopup.classList.add("is-visible");
+        wmPopup.setAttribute("aria-hidden", "false");
+        document.body.classList.add("is-wm-popup-open");
+        if (firstLink instanceof HTMLElement) {
+          firstLink.focus({ preventScroll: true });
+        }
+      };
+
+      const closePopup = () => {
+        wmPopup.classList.remove("is-visible");
+        wmPopup.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("is-wm-popup-open");
+      };
+
+      wmPopup.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target instanceof Element && target.closest("[data-wm-popup-close]")) {
+          event.preventDefault();
+          closePopup();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && wmPopup.classList.contains("is-visible")) {
+          closePopup();
+        }
+      });
+
+      window.setTimeout(openPopup, 650);
+    }
+  </script>
 </BaseLayout>

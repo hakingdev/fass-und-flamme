@@ -1343,6 +1343,702 @@ h3 {
   }
 }
 
+body.is-wm-popup-open {
+  overflow: hidden;
+}
+
+.wm-popup {
+  align-items: center;
+  display: grid;
+  inset: 0;
+  opacity: 0;
+  padding: clamp(32px, 5vw, 96px);
+  pointer-events: none;
+  position: fixed;
+  transition: opacity 220ms ease;
+  z-index: 90;
+}
+
+.wm-popup.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wm-popup__backdrop {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(200, 184, 149, 0.16), transparent 32%),
+    rgba(6, 4, 3, 0.78);
+  cursor: pointer;
+  inset: 0;
+  position: absolute;
+}
+
+.wm-popup__panel {
+  background:
+    linear-gradient(90deg, rgba(11, 7, 5, 0.92), rgba(17, 10, 7, 0.72)),
+    linear-gradient(180deg, rgba(11, 7, 5, 0.06), rgba(11, 7, 5, 0.88)),
+    url("/images/reservation-gruppenabend.jpg");
+  background-position: center;
+  background-size: cover;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 8px;
+  box-shadow: 0 34px 120px rgba(0, 0, 0, 0.68);
+  display: grid;
+  gap: clamp(32px, 5vw, 72px);
+  grid-template-columns: minmax(140px, 0.28fr) minmax(0, 1fr);
+  margin: auto;
+  max-height: min(720px, calc(100svh - clamp(32px, 5vw, 96px) * 2));
+  max-width: 1120px;
+  overflow: hidden;
+  padding: clamp(40px, 5vw, 78px) clamp(52px, 6vw, 96px);
+  position: relative;
+  transform: translateY(18px) scale(0.98);
+  transition: transform 260ms ease;
+  width: min(100%, 1120px);
+}
+
+.wm-popup.is-visible .wm-popup__panel {
+  transform: translateY(0) scale(1);
+}
+
+.wm-popup__panel::before {
+  background:
+    linear-gradient(90deg, rgba(11, 7, 5, 0.16), rgba(11, 7, 5, 0.76)),
+    linear-gradient(180deg, rgba(11, 7, 5, 0), rgba(11, 7, 5, 0.62));
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.wm-popup__panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.wm-popup__close {
+  align-items: center;
+  background: rgba(245, 234, 216, 0.08);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  height: 46px;
+  justify-content: center;
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+  width: 46px;
+  z-index: 4;
+}
+
+.wm-popup__close:hover {
+  background: var(--color-brand-bg);
+  border-color: var(--color-brand-bg);
+  transform: scale(1.04);
+}
+
+.wm-popup__close span {
+  background: var(--color-text);
+  border-radius: 999px;
+  height: 2px;
+  position: absolute;
+  width: 20px;
+}
+
+.wm-popup__close:hover span {
+  background: #21150f;
+}
+
+.wm-popup__close span:first-child {
+  transform: rotate(45deg);
+}
+
+.wm-popup__close span:last-child {
+  transform: rotate(-45deg);
+}
+
+.wm-popup__media {
+  align-self: center;
+  display: grid;
+  height: clamp(124px, 18vw, 210px);
+  justify-items: center;
+  place-items: center;
+  width: clamp(124px, 18vw, 210px);
+}
+
+.wm-popup__media img {
+  display: block;
+  filter:
+    drop-shadow(0 8px 30px rgba(0, 0, 0, 0.72))
+    drop-shadow(0 0 18px rgba(245, 234, 216, 0.2));
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 1;
+  width: 100%;
+}
+
+.wm-popup__content {
+  align-self: center;
+  max-width: 690px;
+  min-width: 0;
+  padding-right: clamp(18px, 3vw, 44px);
+}
+
+.wm-popup__content h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(38px, 4.2vw, 66px);
+  font-weight: 600;
+  line-height: 0.94;
+  margin-top: 10px;
+  max-width: 100%;
+  overflow-wrap: normal;
+  text-transform: uppercase;
+  word-break: normal;
+}
+
+.wm-popup__content p:not(.eyebrow) {
+  color: rgba(245, 234, 216, 0.84);
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 800;
+  line-height: 1.5;
+  margin-top: 22px;
+  max-width: 100%;
+}
+
+.wm-popup__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.wm-page {
+  min-height: 100svh;
+  overflow: hidden;
+  padding: clamp(190px, 17vw, 250px) var(--page-padding) var(--section-gap);
+  position: relative;
+}
+
+.wm-page::before {
+  background:
+    linear-gradient(90deg, rgba(11, 7, 5, 0.94), rgba(11, 7, 5, 0.74) 44%, rgba(25, 16, 11, 0.94)),
+    linear-gradient(180deg, rgba(11, 7, 5, 0.4), rgba(25, 16, 11, 0.97) 74%),
+    url("/images/reservation-dinner-bier.jpg");
+  background-position: center;
+  background-size: cover;
+  content: "";
+  inset: 0 0 auto;
+  min-height: 920px;
+  opacity: 0.96;
+  position: absolute;
+  z-index: 0;
+}
+
+.wm-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.wm-hero {
+  align-items: center;
+  column-gap: clamp(32px, 5vw, 72px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
+  margin-inline: auto;
+  max-width: 1232px;
+  row-gap: clamp(34px, 7vw, 92px);
+}
+
+@media (min-width: 1081px) {
+  .wm-hero {
+    column-gap: clamp(84px, 7vw, 112px);
+  }
+}
+
+.wm-hero__content {
+  align-self: center;
+  container-type: inline-size;
+  max-width: 740px;
+  min-width: 0;
+}
+
+.wm-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(54px, 12.5cqi, 96px);
+  font-weight: 600;
+  line-height: 0.9;
+  margin: 16px 0 0;
+  max-width: 100%;
+  overflow-wrap: normal;
+  text-transform: uppercase;
+  word-break: normal;
+}
+
+.wm-hero h1 span {
+  display: block;
+}
+
+.wm-hero__content p:not(.eyebrow),
+.wm-section__header p:not(.eyebrow),
+.wm-final-cta p:not(.eyebrow),
+.wm-offer-card p,
+.wm-match-card p {
+  color: rgba(245, 234, 216, 0.78);
+  font-weight: 700;
+}
+
+.wm-hero__content p:not(.eyebrow) {
+  font-size: clamp(18px, 2vw, 25px);
+  line-height: 1.52;
+  margin-top: 28px;
+  max-width: 700px;
+}
+
+.wm-hero__actions,
+.wm-final-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.wm-hero__poster {
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.18), rgba(11, 7, 5, 0.9) 70%),
+    url("/images/reservation-gruppenabend.jpg");
+  background-position: center;
+  background-size: cover;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  justify-self: end;
+  min-height: clamp(460px, 48vw, 640px);
+  overflow: hidden;
+  padding: clamp(24px, 4vw, 42px);
+  width: min(100%, 440px);
+}
+
+.wm-hero__poster img {
+  align-self: start;
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.68));
+  height: clamp(96px, 12vw, 150px);
+  justify-self: center;
+  object-fit: contain;
+  width: clamp(96px, 12vw, 150px);
+}
+
+.wm-hero__poster div {
+  align-self: end;
+}
+
+.wm-hero__poster span,
+.wm-benefits span,
+.wm-match-card__date span,
+.wm-match-card__time span {
+  color: var(--color-gold);
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.wm-hero__poster strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(50px, 6.2vw, 86px);
+  line-height: 0.88;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+.wm-hero__poster p {
+  align-self: end;
+  color: rgba(245, 234, 216, 0.78);
+  font-weight: 800;
+  margin-top: 18px;
+}
+
+.wm-benefits {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: clamp(34px, 5vw, 70px) auto 0;
+  max-width: 1232px;
+}
+
+.wm-benefits article {
+  background: linear-gradient(145deg, rgba(58, 36, 22, 0.76), rgba(17, 10, 7, 0.82));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  padding: 22px;
+}
+
+.wm-benefits strong {
+  display: block;
+  font-size: clamp(18px, 2vw, 24px);
+  margin-top: 10px;
+}
+
+.wm-section,
+.wm-final-cta {
+  margin: var(--section-gap) auto 0;
+  max-width: 1232px;
+}
+
+.wm-section__header {
+  align-items: end;
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  gap: clamp(26px, 6vw, 88px);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.56fr);
+  padding-top: clamp(34px, 5vw, 64px);
+}
+
+.wm-section__header h2,
+.wm-final-cta h2,
+.wm-offer-card h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  overflow-wrap: normal;
+  text-transform: uppercase;
+  word-break: normal;
+}
+
+.wm-section__header h2 {
+  font-size: clamp(38px, 5vw, 72px);
+  line-height: 0.96;
+  margin-top: 10px;
+  max-width: 760px;
+}
+
+.wm-section__header p:not(.eyebrow) {
+  line-height: 1.5;
+  max-width: 440px;
+}
+
+.wm-match-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 42px;
+}
+
+.wm-match-card {
+  align-items: start;
+  background:
+    linear-gradient(90deg, rgba(58, 36, 22, 0.62), rgba(17, 10, 7, 0.82)),
+    linear-gradient(180deg, rgba(200, 184, 149, 0.05), rgba(200, 184, 149, 0));
+  border: 1px solid var(--color-line-strong);
+  border-radius: 8px;
+  display: grid;
+  gap: 14px clamp(28px, 4vw, 64px);
+  grid-template-areas:
+    "date teams button"
+    "time teams button"
+    ". note button";
+  grid-template-columns: minmax(210px, 0.3fr) minmax(0, 1fr) auto;
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.wm-match-card__date {
+  grid-area: date;
+}
+
+.wm-match-card__time {
+  grid-area: time;
+}
+
+.wm-match-card__date strong,
+.wm-match-card__time strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1;
+  margin-top: 8px;
+}
+
+.wm-match-card__teams {
+  align-items: center;
+  align-self: start;
+  display: grid;
+  gap: 9px 14px;
+  grid-area: teams;
+  grid-template-areas:
+    "home-flag home"
+    "versus versus"
+    "away-flag away";
+  grid-template-columns: 42px minmax(0, 1fr);
+  min-width: 0;
+}
+
+.wm-match-card__teams .wm-flag:first-child {
+  grid-area: home-flag;
+}
+
+.wm-match-card__teams strong:first-of-type {
+  grid-area: home;
+}
+
+.wm-match-card__teams em {
+  grid-area: versus;
+}
+
+.wm-match-card__teams strong:last-of-type {
+  grid-area: away;
+}
+
+.wm-match-card__teams .wm-flag:nth-of-type(2) {
+  grid-area: away-flag;
+}
+
+.wm-match-card__teams strong {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 3.4vw, 54px);
+  line-height: 0.9;
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+.wm-match-card__teams em {
+  color: var(--color-gold);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding-left: 56px;
+  text-transform: uppercase;
+}
+
+.wm-match-card p {
+  grid-area: note;
+  line-height: 1.45;
+  margin: 0;
+  max-width: 520px;
+}
+
+.wm-match-card .button {
+  align-self: center;
+  grid-area: button;
+  justify-self: end;
+  white-space: nowrap;
+}
+
+.wm-flag {
+  border: 1px solid rgba(245, 234, 216, 0.38);
+  border-radius: 2px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.36);
+  height: 26px;
+  overflow: hidden;
+  width: 38px;
+}
+
+.wm-flag--germany {
+  background: linear-gradient(#000 0 33%, #dd0000 33% 66%, #ffce00 66%);
+}
+
+.wm-flag--curacao {
+  background: #0052a5;
+  position: relative;
+}
+
+.wm-flag--curacao::before {
+  background: #ffd100;
+  border-radius: 50%;
+  box-shadow: 9px 4px 0 #ffd100;
+  content: "";
+  height: 5px;
+  left: 7px;
+  position: absolute;
+  top: 7px;
+  width: 5px;
+}
+
+.wm-flag--ivory {
+  background: linear-gradient(90deg, #f77f00 0 33%, #fff 33% 66%, #009e60 66%);
+}
+
+.wm-flag--ecuador {
+  background: linear-gradient(#ffd100 0 50%, #0047ab 50% 75%, #ce1126 75%);
+}
+
+.wm-offer-grid {
+  align-items: stretch;
+  display: grid;
+  gap: 18px;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 40px;
+}
+
+.wm-offer-card {
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.08), rgba(11, 7, 5, 0.74) 100%),
+    linear-gradient(135deg, rgba(200, 184, 149, 0.2), rgba(58, 36, 22, 0.76));
+  border: 1px solid var(--color-line-strong);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  min-width: 0;
+  overflow: hidden;
+  padding: clamp(20px, 2.6vw, 28px);
+  position: relative;
+}
+
+.wm-offer-card--featured {
+  border-color: rgba(200, 160, 75, 0.86);
+  box-shadow:
+    0 0 0 1px rgba(200, 160, 75, 0.28),
+    0 20px 70px rgba(200, 160, 75, 0.12);
+}
+
+.wm-offer-card__badge {
+  background: var(--color-gold);
+  border-radius: 999px;
+  color: #140c08;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  max-width: 100%;
+  padding: 6px 12px;
+  text-transform: uppercase;
+}
+
+.wm-offer-card__body {
+  align-items: stretch;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  gap: clamp(5px, 1.3vw, 18px);
+  min-height: 0;
+}
+
+.wm-offer-card__number {
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+  font-size: clamp(42px, 4.4vw, 58px);
+  font-weight: 700;
+  line-height: 0.9;
+}
+
+.wm-offer-card__content {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.wm-offer-card h3 {
+  font-size: clamp(19px, 1.55vw, 26px);
+  line-height: 0.96;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.wm-offer-card__content > em {
+  color: var(--color-gold);
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.wm-offer-card ul {
+  color: rgba(245, 234, 216, 0.82);
+  display: grid;
+  gap: 4px;
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+}
+
+.wm-offer-card li {
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.wm-offer-card__price {
+  align-items: end;
+  border-left: 1px solid rgba(200, 184, 149, 0.22);
+  display: grid;
+  gap: 2px;
+  flex: 0 0 clamp(104px, 9vw, 128px);
+  justify-items: end;
+  margin-left: auto;
+  padding-left: clamp(5px, 1vw, 14px);
+}
+
+.wm-offer-card__price span {
+  color: rgba(245, 234, 216, 0.72);
+  font-family: var(--font-body);
+  font-size: 15px;
+  text-transform: none;
+}
+
+.wm-offer-card__price small {
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.wm-offer-card__price strong {
+  align-items: baseline;
+  color: var(--color-gold);
+  display: inline-flex;
+  font-family: var(--font-heading);
+  font-size: clamp(34px, 3.5vw, 52px);
+  gap: 6px;
+  line-height: 0.9;
+  white-space: nowrap;
+}
+
+.wm-offer-card__price em {
+  background: rgba(78, 113, 24, 0.92);
+  border-radius: 4px;
+  color: var(--color-text);
+  font-style: normal;
+  font-weight: 800;
+  margin-top: 8px;
+  padding: 4px 8px;
+}
+
+.wm-final-cta {
+  background:
+    linear-gradient(90deg, rgba(11, 7, 5, 0.84), rgba(11, 7, 5, 0.46)),
+    url("/images/reservation-steak-night.jpg");
+  background-position: center;
+  background-size: cover;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  padding: clamp(34px, 6vw, 78px);
+}
+
+.wm-final-cta h2 {
+  font-size: clamp(42px, 7vw, 104px);
+  line-height: 0.9;
+  margin-top: 10px;
+}
+
+.wm-final-cta p:not(.eyebrow) {
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.5;
+  margin-top: 20px;
+  max-width: 660px;
+}
+
 .menu-page {
   min-height: 100svh;
   overflow: hidden;
@@ -2049,6 +2745,164 @@ h3 {
   white-space: nowrap;
 }
 
+.legal-page {
+  min-height: 100svh;
+  overflow: hidden;
+  padding: clamp(178px, 18vw, 246px) var(--page-padding) clamp(84px, 12vw, 156px);
+  position: relative;
+}
+
+.legal-page::before {
+  background:
+    linear-gradient(180deg, rgba(11, 7, 5, 0.54), rgba(25, 16, 11, 0.98) 78%),
+    url("/images/reservation-dinner-bier.jpg");
+  background-position: 58% 50%;
+  background-size: cover;
+  content: "";
+  height: min(620px, 76svh);
+  inset: 0 0 auto;
+  opacity: 0.46;
+  position: absolute;
+  z-index: -1;
+}
+
+.legal-hero {
+  align-items: stretch;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.58fr);
+  margin-inline: auto;
+  max-width: 1232px;
+}
+
+.legal-hero > div,
+.legal-quick {
+  min-height: clamp(300px, 30vw, 430px);
+}
+
+.legal-hero > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.legal-hero h1 {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(50px, 5.6vw, 92px);
+  font-weight: 500;
+  line-height: 0.9;
+  margin-top: 14px;
+  max-width: min(100%, 840px);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.legal-hero h1 span {
+  display: block;
+}
+
+.legal-hero p:not(.eyebrow) {
+  color: rgba(245, 234, 216, 0.84);
+  font-size: clamp(17px, 2vw, 22px);
+  margin-top: 26px;
+  max-width: 700px;
+}
+
+.legal-quick {
+  align-content: center;
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.08), rgba(36, 23, 15, 0.62));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  display: grid;
+  font-style: normal;
+  min-width: 0;
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.legal-quick span,
+.legal-quick a {
+  border-bottom: 1px solid rgba(243, 231, 211, 0.12);
+  color: rgba(243, 231, 211, 0.82);
+  padding: 14px 0;
+}
+
+.legal-quick a {
+  color: var(--color-gold);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.legal-content {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: clamp(54px, 8vw, 92px) auto 0;
+  max-width: 1232px;
+}
+
+.legal-card {
+  background: linear-gradient(180deg, rgba(200, 184, 149, 0.06), rgba(36, 23, 15, 0.56));
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  min-width: 0;
+  padding: clamp(26px, 3.4vw, 42px);
+}
+
+.legal-card--wide {
+  grid-column: 1 / -1;
+}
+
+.legal-card h2 {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 2.5vw, 38px);
+  font-weight: 600;
+  line-height: 1.04;
+  margin: 0 0 18px;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.legal-card h2:not(:first-child) {
+  margin-top: 32px;
+}
+
+.legal-card p,
+.legal-card address {
+  color: rgba(245, 234, 216, 0.78);
+  font-style: normal;
+  margin: 0;
+}
+
+.legal-card p + p,
+.legal-card address + address {
+  margin-top: 18px;
+}
+
+.legal-list {
+  color: rgba(245, 234, 216, 0.78);
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding-left: 22px;
+}
+
+.legal-list + p,
+.legal-card p + .legal-list {
+  margin-top: 18px;
+}
+
+.legal-list li::marker {
+  color: var(--color-gold);
+}
+
+.legal-card a {
+  color: var(--color-gold);
+  overflow-wrap: anywhere;
+}
+
 .thanks-page {
   min-height: 100svh;
   padding: clamp(178px, 18vw, 246px) var(--page-padding) clamp(84px, 12vw, 156px);
@@ -2229,6 +3083,8 @@ h3 {
   .reservation-page__grid,
   .contact-page__hero,
   .contact-page__layout,
+  .legal-hero,
+  .legal-content,
   .gallery-hero,
   .gallery-category__header,
   .gallery-funnel,
@@ -2257,6 +3113,10 @@ h3 {
   }
 
   .contact-page {
+    padding-top: 210px;
+  }
+
+  .legal-page {
     padding-top: 210px;
   }
 
@@ -2477,6 +3337,19 @@ h3 {
     padding-top: 178px;
   }
 
+  .legal-page {
+    padding-top: 178px;
+  }
+
+  .legal-hero > div,
+  .legal-quick {
+    min-height: auto;
+  }
+
+  .legal-hero h1 {
+    font-size: clamp(34px, 8.6vw, 58px);
+  }
+
   .thanks-page {
     padding-top: 178px;
   }
@@ -2628,6 +3501,207 @@ h3 {
   .main-nav a {
     display: block;
     text-align: left;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1180px) {
+  .wm-match-card {
+    grid-template-areas:
+      "date teams"
+      "time teams"
+      ". note"
+      "button button";
+    grid-template-columns: minmax(190px, 0.34fr) minmax(0, 1fr);
+  }
+
+  .wm-match-card .button {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 980px) {
+  .wm-page {
+    padding-top: 210px;
+  }
+
+  .wm-hero,
+  .wm-section__header {
+    grid-template-columns: 1fr;
+  }
+
+  .wm-hero__content {
+    max-width: 760px;
+  }
+
+  .wm-hero__poster {
+    justify-self: stretch;
+    min-height: 420px;
+    width: 100%;
+  }
+
+  .wm-section__header p:not(.eyebrow) {
+    max-width: 680px;
+  }
+
+  .wm-benefits,
+  .wm-offer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wm-match-card {
+    align-items: start;
+    grid-template-areas:
+      "date"
+      "time"
+      "teams"
+      "note"
+      "button";
+    grid-template-columns: 1fr;
+  }
+
+  .wm-match-card .button {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .wm-popup {
+    align-items: center;
+    padding: 18px;
+  }
+
+  .wm-popup__panel {
+    display: block;
+    height: min(560px, calc(100svh - 36px));
+    max-height: calc(100svh - 36px);
+    max-width: 370px;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+  }
+
+  .wm-popup__media {
+    display: block;
+    height: 82px;
+    left: 22px;
+    margin: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 10px;
+    width: 82px;
+    z-index: 3;
+  }
+
+  .wm-popup__media img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .wm-popup__content {
+    left: 22px;
+    margin-top: 0;
+    padding-right: 0;
+    position: absolute;
+    right: 22px;
+    top: 48%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .wm-popup__content h2 {
+    font-size: clamp(30px, 9vw, 42px);
+    margin-top: 4px;
+  }
+
+  .wm-popup__content p:not(.eyebrow) {
+    font-size: 15px;
+    line-height: 1.42;
+    margin-top: 12px;
+  }
+
+  .wm-popup__actions {
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .wm-popup__actions .button {
+    width: 100%;
+  }
+
+  .wm-popup__close {
+    height: 38px;
+    right: 10px;
+    top: 10px;
+    width: 38px;
+    z-index: 5;
+  }
+
+  .wm-popup__close span {
+    width: 17px;
+  }
+
+  .wm-page {
+    padding-top: 178px;
+  }
+
+  .wm-hero {
+    gap: 28px;
+  }
+
+  .wm-hero h1 {
+    font-size: clamp(38px, 10.5vw, 60px);
+    line-height: 0.92;
+  }
+
+  .wm-hero__content p:not(.eyebrow) {
+    font-size: 17px;
+  }
+
+  .wm-hero__poster {
+    min-height: 360px;
+    padding: 22px;
+  }
+
+  .wm-benefits article,
+  .wm-match-card,
+  .wm-offer-card,
+  .wm-final-cta {
+    padding: 22px;
+  }
+
+  .wm-section__header h2,
+  .wm-final-cta h2 {
+    font-size: clamp(32px, 9vw, 54px);
+  }
+
+  .wm-match-card {
+    gap: 18px;
+  }
+
+  .wm-match-card__teams {
+    gap: 10px 12px;
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .wm-match-card__teams em {
+    padding-left: 50px;
+  }
+
+  .wm-match-card__teams strong {
+    font-size: clamp(23px, 7vw, 34px);
+  }
+
+  .wm-match-card__date strong,
+  .wm-match-card__time strong {
+    font-size: clamp(26px, 7.2vw, 36px);
+  }
+
+  .wm-hero__actions .button,
+  .wm-match-card .button,
+  .wm-final-cta__actions .button {
     width: 100%;
   }
 }

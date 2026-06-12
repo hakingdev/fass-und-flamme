@@ -1,0 +1,222 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const phone = "+4915251812634";
+const email = "info@hotel-weisses-haus.com";
+
+const privacySchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Datenschutz | Fass & Flamme Steakhouse Bad Kissingen",
+  url: "https://fassflamme.de/datenschutz/",
+  description: "Datenschutzerklärung der Weisses Haus GmbH für Fass & Flamme Steakhouse in Bad Kissingen.",
+  about: {
+    "@type": "Restaurant",
+    name: "Fass & Flamme Steakhouse",
+    telephone: phone,
+    email,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Kurhausstraße 14",
+      postalCode: "97688",
+      addressLocality: "Bad Kissingen",
+      addressCountry: "DE",
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Datenschutz | Fass & Flamme Steakhouse Bad Kissingen"
+  description="Datenschutzerklärung der Weisses Haus GmbH für Fass & Flamme Steakhouse in Bad Kissingen."
+  canonicalPath="/datenschutz/"
+  image="/images/reservation-dinner-bier.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(privacySchema)}></script>
+
+  <header class="site-header" aria-label="Hauptnavigation">
+    <a class="brand" href="/" aria-label="Fass & Flamme Startseite">
+      <img class="brand__logo brand__logo--default" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+      <img class="brand__logo brand__logo--sticky" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" aria-hidden="true" />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" data-site-nav>
+      <a href="/">Start</a>
+      <a href="/galerie/">Galerie</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+    </nav>
+  </header>
+
+  <main class="legal-page">
+    <section class="legal-hero" aria-labelledby="legal-page-title">
+      <div>
+        <p class="eyebrow">Datenschutz</p>
+        <h1 id="legal-page-title">
+          <span>Datenschutz</span>
+          <span>erklärung</span>
+        </h1>
+        <p>
+          Wir freuen uns über Ihr Interesse an Fass &amp; Flamme. Der Schutz Ihrer personenbezogenen Daten ist uns wichtig. Nachfolgend informieren wir Sie darüber, welche Daten wir beim Besuch unserer Website und bei der Kontaktaufnahme verarbeiten.
+        </p>
+      </div>
+      <address class="legal-quick">
+        <span>Weisses Haus GmbH</span>
+        <span>Betriebsstätte Fass &amp; Flamme Steakhouse</span>
+        <span>Kurhausstraße 14, 97688 Bad Kissingen</span>
+        <a href={`tel:${phone}`}>01525 1812634</a>
+        <a href={`mailto:${email}`}>{email}</a>
+      </address>
+    </section>
+
+    <section class="legal-content" aria-label="Datenschutzerklärung">
+      <article class="legal-card legal-card--wide">
+        <h2>1. Verantwortlicher für die Datenverarbeitung</h2>
+        <address>
+          Weisses Haus GmbH<br />
+          Kurhausstraße 11A<br />
+          97688 Bad Kissingen
+        </address>
+        <address>
+          Betriebsstätte Fass &amp; Flamme Steakhouse<br />
+          Kurhausstraße 14<br />
+          97688 Bad Kissingen
+        </address>
+        <p>
+          Telefon: <a href={`tel:${phone}`}>01525 1812634</a><br />
+          E-Mail: <a href={`mailto:${email}`}>{email}</a><br />
+          Datenschutzbeauftragter: A. Samsonov
+        </p>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>2. Zwecke und Rechtsgrundlagen der Datenverarbeitung</h2>
+        <p>Wir verarbeiten personenbezogene Daten zu folgenden Zwecken:</p>
+        <ul class="legal-list">
+          <li>Betrieb, Sicherheit und Darstellung dieser Website</li>
+          <li>Bearbeitung von Anfragen per Kontaktformular, E-Mail oder Telefon</li>
+          <li>Weiterleitung zu externen Reservierungsmöglichkeiten, insbesondere Gastronaut</li>
+          <li>Erfüllung gesetzlicher Verpflichtungen</li>
+          <li>Marketing und Werbung, soweit Sie hierin eingewilligt haben</li>
+        </ul>
+        <p>Rechtsgrundlagen der Verarbeitung sind insbesondere:</p>
+        <ul class="legal-list">
+          <li>Art. 6 Abs. 1 lit. a DSGVO, soweit Sie eine Einwilligung erteilt haben</li>
+          <li>Art. 6 Abs. 1 lit. b DSGVO, soweit die Verarbeitung zur Durchführung vorvertraglicher Maßnahmen oder eines Vertrags erforderlich ist</li>
+          <li>Art. 6 Abs. 1 lit. c DSGVO, soweit eine rechtliche Verpflichtung besteht</li>
+          <li>Art. 6 Abs. 1 lit. f DSGVO auf Grundlage unserer berechtigten Interessen an einem sicheren und nutzerfreundlichen Internetauftritt</li>
+        </ul>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>3. Arten der verarbeiteten Daten</h2>
+        <p>Je nach Nutzung unserer Website können insbesondere folgende Daten verarbeitet werden:</p>
+        <ul class="legal-list">
+          <li>technische Zugriffsdaten, zum Beispiel IP-Adresse, Datum und Uhrzeit des Zugriffs, Browsertyp, Betriebssystem und aufgerufene Seiten</li>
+          <li>Kontaktdaten, zum Beispiel Name, E-Mail-Adresse und Telefonnummer, wenn Sie uns kontaktieren</li>
+          <li>Inhalte Ihrer Anfrage oder Kommunikation</li>
+          <li>Daten, die beim Aufruf externer Dienste wie Google Fonts oder Gastronaut technisch übertragen werden</li>
+          <li>Daten, die Sie auf externen Reservierungsseiten selbst eingeben</li>
+        </ul>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>4. Empfänger der Daten</h2>
+        <p>Ihre Daten können an folgende Empfänger übermittelt werden:</p>
+        <ul class="legal-list">
+          <li>Hosting- und IT-Dienstleister, die für den Betrieb der Website eingesetzt werden, insbesondere Vercel</li>
+          <li>externe Dienstleister, soweit dies für Kommunikation, Sicherheit oder technische Darstellung erforderlich ist</li>
+          <li>E-Mail- und SMTP-Dienstleister, soweit dies zur Bearbeitung von Kontaktanfragen erforderlich ist</li>
+          <li>Gastronaut, wenn Sie die Online-Reservierung oder den eingebundenen Reservierungsbutton nutzen</li>
+          <li>Behörden und öffentliche Stellen, soweit wir gesetzlich hierzu verpflichtet sind</li>
+        </ul>
+        <p>
+          Eine Übermittlung in Drittländer findet nur statt, soweit dies für eingesetzte externe Dienste erforderlich ist und die datenschutzrechtlichen Voraussetzungen hierfür vorliegen.
+        </p>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>5. Externe Dienste und Inhalte</h2>
+        <p>
+          Auf unserer Website können externe Inhalte eingebunden sein. Dazu gehören insbesondere Schriftarten von Google Fonts und die Online-Reservierung von Gastronaut. Beim Aufruf solcher Inhalte kann Ihre IP-Adresse an den jeweiligen Anbieter übertragen werden. Für die weitere Verarbeitung gelten zusätzlich die Datenschutzinformationen der jeweiligen Anbieter.
+        </p>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>6. Rechte der betroffenen Personen</h2>
+        <p>Sie haben im Rahmen der gesetzlichen Voraussetzungen folgende Rechte:</p>
+        <ul class="legal-list">
+          <li>Auskunftsrecht gemäß Art. 15 DSGVO</li>
+          <li>Recht auf Berichtigung gemäß Art. 16 DSGVO</li>
+          <li>Recht auf Löschung gemäß Art. 17 DSGVO</li>
+          <li>Recht auf Einschränkung der Verarbeitung gemäß Art. 18 DSGVO</li>
+          <li>Recht auf Datenübertragbarkeit gemäß Art. 20 DSGVO</li>
+          <li>Widerspruchsrecht gemäß Art. 21 DSGVO</li>
+          <li>Widerrufsrecht gemäß Art. 7 Abs. 3 DSGVO, soweit die Verarbeitung auf einer Einwilligung beruht</li>
+        </ul>
+        <p>Zudem haben Sie das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren.</p>
+      </article>
+
+      <article class="legal-card">
+        <h2>7. Speicherdauer</h2>
+        <p>
+          Wir speichern personenbezogene Daten nur so lange, wie dies für die jeweiligen Zwecke erforderlich ist oder gesetzliche Aufbewahrungsfristen bestehen. Kriterien für die Speicherdauer sind insbesondere gesetzliche Fristen, die Dauer einer Anfragebearbeitung sowie unsere berechtigten Interessen an Dokumentation und Sicherheit.
+        </p>
+      </article>
+
+      <article class="legal-card">
+        <h2>8. Cookies und ähnliche Technologien</h2>
+        <p>
+          Unsere Website kann technisch notwendige Cookies oder vergleichbare Technologien verwenden. Externe Dienste können eigene Cookies oder ähnliche Technologien einsetzen, wenn Sie entsprechende Inhalte nutzen. Sie können Cookies in den Einstellungen Ihres Browsers einschränken oder löschen.
+        </p>
+      </article>
+
+      <article class="legal-card">
+        <h2>9. Automatisierte Entscheidungsfindung und Profiling</h2>
+        <p>Eine automatisierte Entscheidungsfindung einschließlich Profiling findet durch uns nicht statt.</p>
+      </article>
+
+      <article class="legal-card">
+        <h2>10. Datensicherheit</h2>
+        <p>
+          Wir setzen technische und organisatorische Sicherheitsmaßnahmen ein, um Ihre Daten gegen Verlust, Missbrauch und unbefugten Zugriff zu schützen.
+        </p>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>11. Änderungen dieser Datenschutzerklärung</h2>
+        <p>
+          Wir behalten uns vor, diese Datenschutzerklärung zu ändern, wenn technische, rechtliche oder organisatorische Anpassungen erforderlich werden.
+        </p>
+        <p>Stand: Juni 2026</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__links">
+      <a href="/">Start</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/galerie/">Galerie</a>
+    </div>
+    <div class="site-footer__brand">
+      <div class="site-footer__logo-wrap">
+        <img class="site-footer__logo site-footer__logo--light" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" loading="lazy" />
+        <img class="site-footer__logo site-footer__logo--original" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" loading="lazy" aria-hidden="true" />
+      </div>
+      <p>Dry Aged Steaks, BBQ und Bier vom Fass in Bad Kissingen.</p>
+    </div>
+    <div class="site-footer__links site-footer__links--right">
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="/impressum/">Impressum</a>
+      <a href="/datenschutz/" aria-current="page">Datenschutz</a>
+      <a href={`tel:${phone}`}>Anrufen</a>
+    </div>
+  </footer>
+</BaseLayout>

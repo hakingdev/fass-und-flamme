@@ -1,0 +1,174 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const phone = "+4915251812634";
+const email = "info@hotel-weisses-haus.com";
+
+const legalSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Impressum | Fass & Flamme Steakhouse Bad Kissingen",
+  url: "https://fassflamme.de/impressum/",
+  description: "Impressum und rechtliche Angaben der Weisses Haus GmbH für Fass & Flamme Steakhouse in Bad Kissingen.",
+  about: {
+    "@type": "Restaurant",
+    name: "Fass & Flamme Steakhouse",
+    telephone: phone,
+    email,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Kurhausstraße 14",
+      postalCode: "97688",
+      addressLocality: "Bad Kissingen",
+      addressCountry: "DE",
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Impressum | Fass & Flamme Steakhouse Bad Kissingen"
+  description="Impressum und rechtliche Angaben der Weisses Haus GmbH für Fass & Flamme Steakhouse in Bad Kissingen."
+  canonicalPath="/impressum/"
+  image="/images/reservation-dinner-bier.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(legalSchema)}></script>
+
+  <header class="site-header" aria-label="Hauptnavigation">
+    <a class="brand" href="/" aria-label="Fass & Flamme Startseite">
+      <img class="brand__logo brand__logo--default" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+      <img class="brand__logo brand__logo--sticky" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" aria-hidden="true" />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" data-site-nav>
+      <a href="/">Start</a>
+      <a href="/galerie/">Galerie</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+    </nav>
+  </header>
+
+  <main class="legal-page">
+    <section class="legal-hero" aria-labelledby="legal-page-title">
+      <div>
+        <p class="eyebrow">Rechtliches</p>
+        <h1 id="legal-page-title">Impressum</h1>
+        <p>
+          Angaben gemäß § 5 DDG für Fass &amp; Flamme Steakhouse Bad Kissingen.
+        </p>
+      </div>
+      <address class="legal-quick">
+        <span>Fass &amp; Flamme Steakhouse</span>
+        <span>Kurhausstraße 14, 97688 Bad Kissingen</span>
+        <a href={`tel:${phone}`}>01525 1812634</a>
+        <a href={`mailto:${email}`}>{email}</a>
+      </address>
+    </section>
+
+    <section class="legal-content" aria-label="Rechtliche Angaben">
+      <article class="legal-card">
+        <h2>Angaben gemäß § 5 DDG</h2>
+        <address>
+          Weisses Haus GmbH<br />
+          Kurhausstraße 11A<br />
+          97688 Bad Kissingen
+        </address>
+        <address>
+          Betriebsstätte Fass &amp; Flamme Steakhouse<br />
+          Kurhausstraße 14<br />
+          97688 Bad Kissingen
+        </address>
+      </article>
+
+      <article class="legal-card">
+        <h2>Registereintrag</h2>
+        <p>
+          Handelsregister: HRB 9292<br />
+          Registergericht: Registergericht Schweinfurt
+        </p>
+        <h2>Vertreten durch</h2>
+        <p>A. Samsonov</p>
+      </article>
+
+      <article class="legal-card">
+        <h2>Kontakt</h2>
+        <p>
+          Telefon: <a href={`tel:${phone}`}>01525 1812634</a><br />
+          E-Mail: <a href={`mailto:${email}`}>{email}</a>
+        </p>
+      </article>
+
+      <article class="legal-card">
+        <h2>Umsatzsteuer-ID</h2>
+        <p>
+          Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />
+          Steuernr.: 205/142/20396
+        </p>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>Streitschlichtung</h2>
+        <p>
+          Die frühere Plattform der Europäischen Kommission zur Online-Streitbeilegung wurde zum 20. Juli 2025 eingestellt. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>Haftung für Inhalte</h2>
+        <p>
+          Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Wir sind jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        </p>
+        <p>
+          Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+        </p>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>Haftung für Links</h2>
+        <p>
+          Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+        </p>
+        <p>
+          Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+        </p>
+      </article>
+
+      <article class="legal-card legal-card--wide">
+        <h2>Urheberrecht</h2>
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors beziehungsweise Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+        </p>
+        <p>
+          Soweit Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Sollten Sie dennoch auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__links">
+      <a href="/">Start</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/galerie/">Galerie</a>
+    </div>
+    <div class="site-footer__brand">
+      <div class="site-footer__logo-wrap">
+        <img class="site-footer__logo site-footer__logo--light" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" loading="lazy" />
+        <img class="site-footer__logo site-footer__logo--original" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" loading="lazy" aria-hidden="true" />
+      </div>
+      <p>Dry Aged Steaks, BBQ und Bier vom Fass in Bad Kissingen.</p>
+    </div>
+    <div class="site-footer__links site-footer__links--right">
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="/impressum/" aria-current="page">Impressum</a>
+      <a href="/datenschutz/">Datenschutz</a>
+      <a href={`tel:${phone}`}>Anrufen</a>
+    </div>
+  </footer>
+</BaseLayout>
