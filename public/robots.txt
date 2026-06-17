@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fassflamme.de/sitemap-index.xml
+Sitemap: https://www.fassflamme.de/sitemap-index.xml

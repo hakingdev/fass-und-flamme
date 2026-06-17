@@ -21,8 +21,8 @@ const {
   robots,
 } = Astro.props;
 
-const canonical = new URL(canonicalPath, Astro.site ?? "https://fassflamme.de").toString();
-const ogImage = new URL(image, Astro.site ?? "https://fassflamme.de").toString();
+const canonical = new URL(canonicalPath, Astro.site ?? "https://www.fassflamme.de").toString();
+const ogImage = new URL(image, Astro.site ?? "https://www.fassflamme.de").toString();
 const robotsContent = robots ?? "index, follow, max-image-preview:large";
 ---
 
