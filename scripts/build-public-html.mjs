@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$topics = ['Reservierung', 'Gruppenabend', 'Feedback', 'Allgemeine Anfrage'];
+$topics = ['Reservierung', 'Gruppenabend', 'Weihnachtsfeier', 'Feedback', 'Allgemeine Anfrage'];
 $name = clean_field('name');
 $email = clean_field('email', 120);
 $phone = clean_field('phone', 60) ?: 'Nicht angegeben';

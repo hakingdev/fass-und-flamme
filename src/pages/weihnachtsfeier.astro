@@ -1,0 +1,727 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/weihnachtsfeier.css";
+
+const phone = "+4915251812634";
+const phoneLabel = "01525 1812634";
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? "/api/contact";
+
+// Festkalender: Jahr anpassen, Ruhetage = Montag (1) und Dienstag (2)
+const EVENT_YEAR = 2026;
+const WEEKDAYS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+const CLOSED_WEEKDAYS = new Set([1, 2]);
+const SPECIAL_DAYS: Record<number, string> = {
+  6: "Nikolaus",
+  24: "Heiligabend",
+  25: "1. Feiertag",
+  26: "2. Feiertag",
+  31: "Silvester",
+};
+
+const calendarDays = Array.from({ length: 31 }, (_, index) => {
+  const day = index + 1;
+  const weekday = new Date(Date.UTC(EVENT_YEAR, 11, day)).getUTCDay();
+  const special = SPECIAL_DAYS[day] ?? "";
+
+  return {
+    day,
+    value: `${EVENT_YEAR}-12-${String(day).padStart(2, "0")}`,
+    closed: CLOSED_WEEKDAYS.has(weekday),
+    special,
+    label: `${WEEKDAYS[weekday]}, ${day}. Dezember ${EVENT_YEAR}${special ? ` (${special})` : ""}`,
+    shortLabel: `${WEEKDAYS[weekday].slice(0, 2)}, ${day}. Dez.${special ? ` · ${special}` : ""}`,
+  };
+});
+const calendarOffset = (new Date(Date.UTC(EVENT_YEAR, 11, 1)).getUTCDay() + 6) % 7;
+const openDays = calendarDays.filter((day) => !day.closed);
+
+const occasions = [
+  { value: "Firmenfeier", label: "Firmenfeier", longLabel: "Firmen-Weihnachtsfeier" },
+  { value: "Verein / Team", label: "Verein / Team", longLabel: "Vereins- oder Teamfeier" },
+  { value: "Privat", label: "Privat", longLabel: "Private Feier" },
+  { value: "Silvester", label: "Silvester", longLabel: "Silvester" },
+];
+
+const packageOptions = [
+  { value: "Exklusiv-Abend", label: "Exklusiv · 60 € p. P." },
+  { value: "À la carte", label: "À la carte" },
+  { value: "Noch offen", label: "Noch offen" },
+];
+
+const packages = [
+  {
+    value: "Exklusiv-Abend",
+    name: "Exklusiv-Abend",
+    subtitle: "Geschlossene Gesellschaft",
+    badge: "Für Firmenfeiern",
+    image: "/images/gallery/ambiente-gastraum.webp",
+    imageAlt: "Gastraum von Fass & Flamme mit gedeckten Tischen",
+    text: "Das ganze Restaurant gehört Ihrer Firma: individuelles Menü, abgestimmt auf Ihre Gruppe – ohne fremde Gäste.",
+    items: [
+      "Restaurant exklusiv für Ihre Gesellschaft",
+      "Individuelles Menü, gemeinsam mit Ihnen abgestimmt",
+      "Steaks, BBQ und Beilagen aus unserer Küche",
+      "Getränke werden separat nach Verbrauch abgerechnet",
+    ],
+    price: "60 € p. P.",
+    priceNote: "zzgl. Getränke",
+    cta: "Exklusiv anfragen",
+  },
+  {
+    value: "À la carte",
+    name: "À la carte",
+    subtitle: "Gruppentisch im Restaurant",
+    badge: "",
+    image: "/images/gallery/gruppen-steakabend.webp",
+    imageAlt: "Steak mit Beilagen und Rotwein auf einem Tisch bei Fass & Flamme",
+    text: "Ihre Gruppe bekommt einen reservierten Tisch im normalen Restaurantbetrieb – jeder bestellt, worauf er Lust hat.",
+    items: [
+      "Reservierter Tisch für Ihre Gruppe",
+      "Bestellung nach Speisekarte",
+      "Dry Aged Steaks, Burger, BBQ und Fassbier",
+      "Restaurant regulär geöffnet",
+    ],
+    price: "Nach Karte",
+    priceNote: "jeder bestellt individuell",
+    cta: "Tisch anfragen",
+  },
+];
+
+const faqs = [
+  {
+    question: "Ab wie vielen Personen kann ich anfragen?",
+    answer:
+      "Den Exklusiv-Abend stimmen wir individuell auf Ihre Gruppengröße ab. À la carte reservieren wir Tische für Gruppen jeder Größe – kleinere Tische auch direkt online.",
+  },
+  {
+    question: "Gibt es vegetarische und vegane Optionen?",
+    answer: "Ja – zum Beispiel den veganen Burger, vegane Grillwürstchen und die Gemüseplatte mit Tzatziki.",
+  },
+  {
+    question: "Können wir das Restaurant exklusiv buchen?",
+    answer:
+      "Ja. Mit dem Exklusiv-Abend für 60 € pro Person (Getränke separat) gehört das Restaurant nur Ihrer Gesellschaft – mit individuell abgestimmtem Menü.",
+  },
+  {
+    question: "Ist eine Rechnung auf die Firma möglich?",
+    answer: "Ja, Sie erhalten eine Sammelrechnung auf Ihr Unternehmen oder Ihren Verein.",
+  },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      name: "Weihnachtsfeier & Firmenfeier bei Fass & Flamme Bad Kissingen",
+      url: "https://www.fassflamme.de/weihnachtsfeier/",
+      description: "Weihnachts-, Firmen- und Vereinsfeiern im Fass & Flamme Steakhouse in Bad Kissingen.",
+      about: {
+        "@type": "Restaurant",
+        name: "Fass & Flamme Steakhouse",
+        telephone: phone,
+        email: "info@hotel-weisses-haus.com",
+        servesCuisine: "Steakhouse",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Kurhausstraße 14",
+          postalCode: "97688",
+          addressLocality: "Bad Kissingen",
+          addressCountry: "DE",
+        },
+      },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Weihnachtsfeier & Firmenfeier Bad Kissingen | Fass & Flamme"
+  description="Weihnachtsfeier in Bad Kissingen: Exklusiv-Abend für 60 € p. P. oder à la carte – Dry Aged Steaks, BBQ und Fassbier. Jetzt Wunschtermin im Dezember anfragen."
+  canonicalPath="/weihnachtsfeier/"
+  image="/images/reservation-gruppenabend.jpg"
+  imageAlt="Gruppenabend bei Fass & Flamme Steakhouse Bad Kissingen"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)}></script>
+
+  <header class="site-header" aria-label="Hauptnavigation">
+    <a class="brand" href="/" aria-label="Fass & Flamme Startseite">
+      <img class="brand__logo brand__logo--default" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" />
+      <img class="brand__logo brand__logo--sticky" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" aria-hidden="true" />
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" data-site-nav>
+      <a href="/">Start</a>
+      <a href="/galerie/">Galerie</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/weihnachtsfeier/" aria-current="page">Weihnachtsfeiern</a>
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+    </nav>
+  </header>
+
+  <main class="feier-page">
+    <section class="feier-hero" aria-labelledby="feier-title" data-feier-hide-sticky>
+      <img class="feier-hero__image" src="/images/gallery/hero-grill.webp" alt="" width="1200" height="800" fetchpriority="high" decoding="async" />
+      <div class="feier-hero__shade" aria-hidden="true"></div>
+
+      <div class="feier-hero__inner">
+        <div class="feier-hero__content">
+          <p class="eyebrow feier-hero__eyebrow">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"></path></svg>
+            Weihnachts- &amp; Silvesterfeiern {EVENT_YEAR} · Bad Kissingen
+          </p>
+          <h1 id="feier-title">Weihnachts&shy;feier am Feuer</h1>
+          <p class="feier-hero__lead">
+            Für Firmen, Teams, Vereine und alle, die das Jahr gemeinsam ausklingen lassen wollen: Dry Aged Steaks, Grillplatten, Fassbier und Glühwein – mit bayerischer Gemütlichkeit bei Kerzenlicht und Tannengrün.
+          </p>
+          <div class="feier-hero__actions">
+            <a class="button button--primary" href="#anfrage">Feier anfragen</a>
+            <a class="button button--ghost" href="#varianten">Varianten ansehen</a>
+          </div>
+          <p class="feier-hero__note">Die Dezember-Wochenenden sind gefragt – sichern Sie sich früh Ihren Wunschtermin.</p>
+        </div>
+
+        <div class="feier-quick" role="group" aria-labelledby="feier-quick-title" data-feier-quick>
+          <div class="feier-raute" aria-hidden="true"></div>
+          <div class="feier-quick__body">
+            <div>
+              <p class="eyebrow">Schnellanfrage</p>
+              <h2 id="feier-quick-title">Wunschtermin prüfen</h2>
+            </div>
+            <label class="feier-field">
+              <span class="feier-label">Anlass</span>
+              <select data-quick-occasion>
+                {occasions.map((occasion) => <option value={occasion.value}>{occasion.longLabel}</option>)}
+              </select>
+            </label>
+            <div class="feier-quick__row">
+              <label class="feier-field">
+                <span class="feier-label">Datum</span>
+                <select data-quick-date>
+                  <option value="">Bitte wählen</option>
+                  {openDays.map((day) => <option value={day.value}>{day.shortLabel}</option>)}
+                </select>
+              </label>
+              <label class="feier-field">
+                <span class="feier-label">Personen</span>
+                <input type="number" min="2" max="200" value="20" inputmode="numeric" data-quick-guests />
+              </label>
+            </div>
+            <a class="button button--primary" href="#anfrage" data-quick-apply>Verfügbarkeit anfragen</a>
+            <p class="feier-quick__fine">Unverbindlich &amp; kostenlos · Mo &amp; Di Ruhetag</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feier-facts" aria-label="Auf einen Blick">
+      <ul>
+        <li><strong>31+</strong><span>Tage gereifte Dry Aged Cuts</span></li>
+        <li><strong>60 €</strong><span>p. P. · Restaurant exklusiv für Sie</span></li>
+        <li><strong>2</strong><span>Varianten: exklusiv oder à la carte</span></li>
+        <li><strong>1</strong><span>Ansprechpartner, eine Rechnung</span></li>
+      </ul>
+    </section>
+
+    <section class="feier-section" aria-labelledby="feier-audience-title">
+      <div class="feier-section__inner">
+        <div class="feier-heading">
+          <p class="eyebrow">Für wen</p>
+          <h2 id="feier-audience-title">Ein Abend für alle, die zusammen&shy;gehören</h2>
+          <p>Ob zwölf Kolleginnen oder die ganze Belegschaft: Wir richten Ihre Feier so aus, dass Sie nur noch anstoßen müssen.</p>
+        </div>
+        <div class="feier-audience">
+          <article class="feier-audience__card">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="1.5"></rect><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 12h18"></path></svg>
+            <h3>Firmen &amp; Teams</h3>
+            <p>Weihnachtsfeier für die Belegschaft, Abteilungsessen oder Kundenabend – mit Sammelrechnung auf Ihr Unternehmen.</p>
+          </article>
+          <article class="feier-audience__card">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"></circle><circle cx="16" cy="8" r="3"></circle><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6M12 20c0-3.3 2.7-6 6-6s4 1.5 4 3"></path></svg>
+            <h3>Vereine &amp; Praxen</h3>
+            <p>Jahresabschluss für Sportverein, Kanzlei, Praxis oder Stammtisch – gemütlich, laut genug und mit Bier vom Fass.</p>
+          </article>
+          <article class="feier-audience__card">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 6H9l3-6zM12 8l5 7H7l5-7zM12 15l6 6H6l6-6z"></path></svg>
+            <h3>Familie &amp; Freunde</h3>
+            <p>Die große Runde zwischen den Feiertagen – vom Dry Aged Ribeye bis zum amerikanischen Apfelkuchen.</p>
+          </article>
+          <article class="feier-audience__card feier-audience__card--green">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M19 5l-4 4M9 15l-4 4"></path></svg>
+            <h3>Silvester</h3>
+            <p>Das Jahr am Grill verabschieden – als geschlossene Gesellschaft oder ganz entspannt à la carte.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="feier-divider" aria-hidden="true"><div class="feier-raute"></div></div>
+
+    <section class="feier-section" id="varianten" aria-labelledby="feier-packages-title">
+      <div class="feier-section__inner">
+        <div class="feier-heading feier-heading--split">
+          <div>
+            <p class="eyebrow">Zwei Varianten</p>
+            <h2 id="feier-packages-title">Zwei Wege zu Ihrer Feier</h2>
+          </div>
+          <p>Ganz unter sich mit eigenem Menü – oder mitten im Restaurant, bestellt nach Karte.</p>
+        </div>
+        <div class="feier-packages">
+          {packages.map((item) => (
+            <article class={`feier-package${item.badge ? " feier-package--featured" : ""}`}>
+              <img class="feier-package__photo" src={item.image} alt={item.imageAlt} width="1200" height="800" loading="lazy" decoding="async" />
+              <div class="feier-package__body">
+                {item.badge && <span class="feier-package__badge">{item.badge}</span>}
+                <h3>{item.name}</h3>
+                <p class="feier-package__subtitle">{item.subtitle}</p>
+                <p class="feier-package__text">{item.text}</p>
+                <ul>
+                  {item.items.map((point) => <li>{point}</li>)}
+                </ul>
+                <div class="feier-package__footer">
+                  <p class="feier-package__price">
+                    {item.price}
+                    <small>{item.priceNote}</small>
+                  </p>
+                  <a class="button button--primary" href="#anfrage" data-pick-package={item.value}>{item.cta}</a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="feier-section feier-atmo" aria-labelledby="feier-atmo-title">
+      <div class="feier-section__inner feier-atmo__inner">
+        <div>
+          <p class="eyebrow">Bayerische Weihnacht</p>
+          <h2 id="feier-atmo-title" class="feier-atmo__title">Kerzenlicht, Tannengrün und Glut</h2>
+          <p class="feier-atmo__copy">
+            Draußen Frost über Bad Kissingen, drinnen Holz, Kerzen und der Duft vom Grill. Wir verbinden Steakhouse-Küche mit der Gemütlichkeit einer bayerischen Stube – herzhaft, gesellig und ohne steifes Bankett-Gefühl.
+          </p>
+          <ul class="feier-atmo__list">
+            <li><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12l-1 9a5 5 0 01-10 0L6 3zM12 17v4M8 21h8"></path></svg>Glühwein &amp; Punsch zum Empfang</li>
+            <li><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l3 6H9l3-6zM12 8l5 7H7l5-7zM12 15v6"></path></svg>Festlich gedeckte Tafeln</li>
+            <li><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 3h10v4a5 5 0 01-10 0V3zM12 12v9M8 21h8"></path></svg>Frisch gezapftes Fassbier</li>
+            <li><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.6-7 10-7 10z"></path></svg>Süßer Abschluss mit Apfelkuchen</li>
+          </ul>
+        </div>
+        <div class="feier-atmo__photos">
+          <img src="/images/gallery/ambiente-tischdetails.webp" alt="Gedeckter Tisch im warmen Licht der Bar" width="1200" height="1800" loading="lazy" decoding="async" />
+          <img src="/images/gallery/hero-bar.webp" alt="Bar mit Gläsern und Flaschen" width="1200" height="800" loading="lazy" decoding="async" />
+          <img src="/images/gallery/steaks-grillplatte.webp" alt="Grillplatte mit Fleisch, Gemüse und Saucen für die Runde" width="1200" height="800" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <section class="feier-section" aria-labelledby="feier-steps-title">
+      <div class="feier-section__inner">
+        <div class="feier-heading">
+          <p class="eyebrow">So einfach geht's</p>
+          <h2 id="feier-steps-title">In drei Schritten zur Feier</h2>
+        </div>
+        <ol class="feier-steps">
+          <li>
+            <span class="feier-steps__number" aria-hidden="true">01</span>
+            <h3>Anfrage senden</h3>
+            <p>Datum, Personenzahl und Variante – in zwei Minuten erledigt.</p>
+          </li>
+          <li>
+            <span class="feier-steps__number" aria-hidden="true">02</span>
+            <h3>Angebot erhalten</h3>
+            <p>Sie bekommen zeitnah ein persönliches Angebot mit Menü und Ablauf.</p>
+          </li>
+          <li>
+            <span class="feier-steps__number" aria-hidden="true">03</span>
+            <h3>Feiern</h3>
+            <p>Wir decken ein, zünden die Kerzen an und werfen den Grill an. Sie kommen einfach.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="feier-section feier-request" id="anfrage" aria-labelledby="feier-request-title" data-feier-hide-sticky>
+      <div class="feier-section__inner">
+        <div class="feier-heading">
+          <p class="eyebrow">Anfrage</p>
+          <h2 id="feier-request-title">Ihre Feier unverbindlich anfragen</h2>
+        </div>
+
+        <div class="feier-request__layout">
+          <form class="feier-form" action={contactEndpoint} method="post" data-feier-form novalidate>
+            <input type="hidden" name="topic" value="Weihnachtsfeier" />
+
+            <fieldset class="feier-form__group">
+              <legend class="feier-label">Anlass</legend>
+              <div class="feier-chips">
+                {occasions.map((occasion, index) => (
+                  <label class="feier-chip">
+                    <input type="radio" name="occasion" value={occasion.value} checked={index === 0} />
+                    <span>{occasion.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset class="feier-form__group">
+              <legend class="feier-label">Variante</legend>
+              <div class="feier-chips">
+                {packageOptions.map((option, index) => (
+                  <label class="feier-chip">
+                    <input type="radio" name="package" value={option.value} checked={index === 0} />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset class="feier-cal">
+              <legend class="feier-sr-only">Wunschtermin im Dezember {EVENT_YEAR}</legend>
+              <div class="feier-raute" aria-hidden="true"></div>
+              <div class="feier-cal__body">
+                <div class="feier-cal__head">
+                  <div>
+                    <span class="feier-cal__kicker">Festkalender</span>
+                    <span class="feier-cal__month">Dezember {EVENT_YEAR}</span>
+                  </div>
+                  <span class="feier-cal__hint">Tippen Sie auf Ihr Wunschdatum</span>
+                </div>
+                <div class="feier-cal__weekdays" aria-hidden="true">
+                  <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+                </div>
+                <div class="feier-cal__grid">
+                  {Array.from({ length: calendarOffset }, () => <span aria-hidden="true"></span>)}
+                  {calendarDays.map((day) => (
+                    <label class={`feier-cal__day${day.closed ? " is-closed" : ""}${day.special && !day.closed ? " is-special" : ""}`}>
+                      <input
+                        type="radio"
+                        name="event_date"
+                        value={day.value}
+                        aria-label={day.closed ? `${day.label} – Ruhetag` : day.label}
+                        data-date-label={day.label}
+                        disabled={day.closed}
+                        required={!day.closed}
+                      />
+                      <span class="feier-cal__face">
+                        <span class="feier-cal__number">{day.day}</span>
+                        <span class="feier-cal__tag">{day.closed ? "Ruhetag" : day.special}</span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                <p class="feier-cal__summary" aria-live="polite">
+                  Ihr Termin: <strong data-date-summary>noch kein Datum gewählt</strong>
+                </p>
+                <p class="feier-cal__legend">Durchgestrichen = Ruhetag (Mo &amp; Di) · Grün = Feiertage &amp; Nikolaus</p>
+                <div class="feier-form__grid">
+                  <label class="feier-field">
+                    <span class="feier-label">Beginn</span>
+                    <select name="start_time">
+                      <option>17:00</option>
+                      <option selected>18:00</option>
+                      <option>19:00</option>
+                      <option>20:00</option>
+                    </select>
+                  </label>
+                  <label class="feier-field">
+                    <span class="feier-label">Ausweichtermin (optional)</span>
+                    <input type="text" name="alt_date" maxlength="60" placeholder="z. B. Samstag, 12.12." />
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="feier-guests">
+              <label class="feier-label" for="feier-guests">Personen</label>
+              <div class="feier-guests__row">
+                <div class="feier-guests__control">
+                  <button class="feier-guests__step" type="button" aria-label="Weniger Personen" aria-controls="feier-guests" data-guests-step="-1">−</button>
+                  <input id="feier-guests" type="number" name="guests" min="2" max="200" value="20" inputmode="numeric" required />
+                  <button class="feier-guests__step" type="button" aria-label="Mehr Personen" aria-controls="feier-guests" data-guests-step="1">+</button>
+                </div>
+                <p class="feier-guests__hint" data-guests-hint aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="feier-form__grid">
+              <label class="feier-field">
+                <span class="feier-label">Firma / Verein (optional)</span>
+                <input type="text" name="company" autocomplete="organization" maxlength="120" />
+              </label>
+              <label class="feier-field">
+                <span class="feier-label">Ansprechpartner</span>
+                <input type="text" name="name" autocomplete="name" maxlength="80" required />
+              </label>
+              <label class="feier-field">
+                <span class="feier-label">E-Mail</span>
+                <input type="email" name="email" autocomplete="email" maxlength="120" required />
+              </label>
+              <label class="feier-field">
+                <span class="feier-label">Telefon (optional)</span>
+                <input type="tel" name="phone" autocomplete="tel" maxlength="40" />
+              </label>
+            </div>
+
+            <label class="feier-field">
+              <span class="feier-label">Wünsche &amp; Hinweise (optional)</span>
+              <textarea name="notes" rows="4" maxlength="1000" placeholder="z. B. vegetarische Gäste, Allergien, kurze Rede, Budget pro Person"></textarea>
+            </label>
+
+            <div class="feier-form__checks">
+              <label class="feier-check">
+                <input type="checkbox" name="invoice_company" value="ja" checked />
+                <span>Rechnung auf Firma / Verein</span>
+              </label>
+              <label class="feier-check">
+                <input type="checkbox" name="privacy" value="accepted" required />
+                <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden (<a href="/datenschutz/">Datenschutz</a>).</span>
+              </label>
+            </div>
+
+            <div class="feier-form__footer">
+              <button class="button button--primary" type="submit">Unverbindlich anfragen</button>
+              <p class="feier-form__status" data-feier-status role="status" aria-live="polite"></p>
+            </div>
+          </form>
+
+          <aside class="feier-request__aside">
+            <div class="feier-card feier-card--green">
+              <p class="eyebrow">Lieber persönlich?</p>
+              <h3>Rufen Sie uns an</h3>
+              <p>Wir planen Ihre Feier gern am Telefon – Mittwoch bis Sonntag ab 17:00.</p>
+              <a class="button button--primary" href={`tel:${phone}`}>{phoneLabel}</a>
+            </div>
+            <div class="feier-card">
+              <p class="eyebrow">Gut zu wissen</p>
+              <ul class="feier-card__list">
+                <li>Je früher Sie anfragen, desto größer die Auswahl – besonders freitags und samstags.</li>
+                <li>Vegetarische und vegane Gerichte sind auf der Karte.</li>
+                <li>Kurhausstraße 14, 97688 Bad Kissingen</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="feier-section feier-faq" aria-labelledby="feier-faq-title">
+      <div class="feier-faq__inner">
+        <div class="feier-heading">
+          <p class="eyebrow">Häufige Fragen</p>
+          <h2 id="feier-faq-title">Bevor Sie anfragen</h2>
+        </div>
+        <div class="feier-faq__list">
+          {faqs.map((faq, index) => (
+            <details open={index === 0}>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="feier-final" aria-labelledby="feier-final-title">
+      <div class="feier-final__box">
+        <div class="feier-raute" aria-hidden="true"></div>
+        <div class="feier-final__body">
+          <div>
+            <h2 id="feier-final-title">Der Dezember ist schnell vergeben</h2>
+            <p>Sichern Sie Ihren Wunschtermin – unverbindlich und in zwei Minuten angefragt.</p>
+          </div>
+          <div class="feier-final__actions">
+            <a class="button button--primary" href="#anfrage">Feier anfragen</a>
+            <a class="button button--ghost" href={`tel:${phone}`}>Anrufen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-feier-hide-sticky>
+    <div class="site-footer__links">
+      <a href="/">Start</a>
+      <a href="/speisekarte/">Speisekarte</a>
+      <a href="/galerie/">Galerie</a>
+      <a href="/weihnachtsfeier/">Weihnachtsfeiern</a>
+    </div>
+    <div class="site-footer__brand">
+      <div class="site-footer__logo-wrap">
+        <img class="site-footer__logo site-footer__logo--light" src="/images/fass-flamme-logo-site.png" alt="Fass & Flamme Steakhouse" width="500" height="500" loading="lazy" />
+        <img class="site-footer__logo site-footer__logo--original" src="/images/fass-flamme-logo-original.svg" alt="" width="563" height="563" loading="lazy" aria-hidden="true" />
+      </div>
+      <p>Dry Aged Steaks, BBQ und Bier vom Fass in Bad Kissingen.</p>
+    </div>
+    <div class="site-footer__links site-footer__links--right">
+      <a href="/reservierung/">Reservierung</a>
+      <a href="/kontakt/">Kontakt</a>
+      <a href="/impressum/">Impressum</a>
+      <a href="/datenschutz/">Datenschutz</a>
+      <a href={`tel:${phone}`}>Anrufen</a>
+    </div>
+  </footer>
+
+  <div class="feier-sticky" data-feier-sticky>
+    <a class="button button--primary" href="#anfrage">Feier anfragen</a>
+    <a class="feier-sticky__call" href={`tel:${phone}`} aria-label={`Anrufen: ${phoneLabel}`}>
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"></path></svg>
+    </a>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const form = document.querySelector("[data-feier-form]");
+      if (!(form instanceof HTMLFormElement)) return;
+
+      const status = form.querySelector("[data-feier-status]");
+      const summary = form.querySelector("[data-date-summary]");
+      const guestsInput = form.querySelector('input[name="guests"]');
+      const guestsHint = form.querySelector("[data-guests-hint]");
+      const emptyDateText = summary ? summary.textContent : "";
+
+      const clampGuests = (value) => String(Math.min(200, Math.max(2, Math.round(Number(value) || 20))));
+
+      const checkRadio = (name, value) => {
+        form.querySelectorAll(`input[name="${name}"]`).forEach((input) => {
+          if (input.value === value && !input.disabled) input.checked = true;
+        });
+      };
+
+      const selectedDateLabel = () => form.querySelector('input[name="event_date"]:checked')?.dataset.dateLabel ?? "";
+
+      const syncDate = () => {
+        if (summary) summary.textContent = selectedDateLabel() || emptyDateText;
+      };
+
+      const syncGuests = () => {
+        if (guestsHint) guestsHint.textContent = Number(guestsInput?.value) >= 40 ? "Exklusivbuchung empfohlen" : "";
+      };
+
+      form.addEventListener("change", (event) => {
+        if (event.target instanceof HTMLInputElement && event.target.name === "event_date") syncDate();
+      });
+
+      guestsInput?.addEventListener("input", syncGuests);
+
+      form.querySelectorAll("[data-guests-step]").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (!guestsInput) return;
+          guestsInput.value = clampGuests(Number(guestsInput.value || 20) + Number(button.dataset.guestsStep));
+          syncGuests();
+        });
+      });
+
+      document.querySelectorAll("[data-pick-package]").forEach((link) => {
+        link.addEventListener("click", () => checkRadio("package", link.dataset.pickPackage));
+      });
+
+      const quick = document.querySelector("[data-feier-quick]");
+      quick?.querySelector("[data-quick-apply]")?.addEventListener("click", () => {
+        const occasion = quick.querySelector("[data-quick-occasion]")?.value;
+        const date = quick.querySelector("[data-quick-date]")?.value;
+        const guests = quick.querySelector("[data-quick-guests]")?.value;
+
+        if (occasion) checkRadio("occasion", occasion);
+        if (date) checkRadio("event_date", date);
+        if (guests && guestsInput) guestsInput.value = clampGuests(guests);
+        syncDate();
+        syncGuests();
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
+        if (status) status.textContent = "Anfrage wird gesendet...";
+
+        const data = new FormData(form);
+        const field = (name) => String(data.get(name) ?? "").trim();
+        const message = [
+          "Anfrage Weihnachts- & Firmenfeier",
+          "",
+          `Anlass: ${field("occasion")}`,
+          `Variante: ${field("package")}`,
+          `Wunschtermin: ${selectedDateLabel()}`,
+          `Beginn: ${field("start_time")}`,
+          `Ausweichtermin: ${field("alt_date") || "–"}`,
+          `Personen: ${field("guests")}`,
+          `Firma / Verein: ${field("company") || "–"}`,
+          `Rechnung auf Firma / Verein: ${data.has("invoice_company") ? "ja" : "nein"}`,
+          "",
+          "Wünsche & Hinweise:",
+          field("notes") || "–",
+        ].join("\n");
+
+        try {
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: JSON.stringify({
+              name: field("name"),
+              email: field("email"),
+              phone: field("phone"),
+              topic: field("topic"),
+              privacy: field("privacy"),
+              message,
+            }),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          });
+          const responsePayload = await response.json().catch(() => null);
+
+          if (!response.ok) throw new Error(responsePayload?.message || "Der Versand konnte nicht abgeschlossen werden.");
+
+          if (typeof window.fbq === "function") {
+            window.fbq("track", "Lead", {
+              content_name: "Weihnachtsfeier Anfrage",
+              content_category: field("occasion"),
+            });
+          }
+
+          if (status) status.textContent = responsePayload?.message || "Vielen Dank. Ihre Anfrage wurde gesendet.";
+          form.reset();
+          window.setTimeout(() => window.location.assign("/kontakt/danke/"), 300);
+        } catch (error) {
+          if (status) {
+            status.textContent = error instanceof Error ? error.message : "Der Versand konnte nicht abgeschlossen werden.";
+          }
+          if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+        }
+      });
+
+      syncDate();
+      syncGuests();
+
+      const sticky = document.querySelector("[data-feier-sticky]");
+      if (sticky && "IntersectionObserver" in window) {
+        const visibleBlockers = new Set();
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) visibleBlockers.add(entry.target);
+            else visibleBlockers.delete(entry.target);
+          });
+          sticky.classList.toggle("is-visible", visibleBlockers.size === 0);
+        });
+
+        document.querySelectorAll("[data-feier-hide-sticky]").forEach((element) => observer.observe(element));
+      }
+    })();
+  </script>
+</BaseLayout>
