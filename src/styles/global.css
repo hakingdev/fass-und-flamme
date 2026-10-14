@@ -2329,7 +2329,7 @@ h3 {
     gap: 0;
     grid-auto-rows: max-content;
     left: var(--page-padding);
-    max-height: min(360px, calc(100svh - 122px));
+    max-height: min(380px, calc(100svh - 122px));
     overflow-y: auto;
     overscroll-behavior: contain;
     position: absolute;
@@ -2518,7 +2518,7 @@ h3 {
     align-content: start;
     grid-auto-rows: max-content;
     left: var(--page-padding);
-    max-height: min(320px, calc(100svh - 112px));
+    max-height: min(380px, calc(100svh - 112px));
     overflow-y: auto;
     overscroll-behavior: contain;
     position: absolute;
@@ -2583,7 +2583,7 @@ h3 {
     align-content: start;
     grid-auto-rows: max-content;
     left: var(--page-padding);
-    max-height: min(320px, calc(100svh - 112px));
+    max-height: min(380px, calc(100svh - 112px));
     overflow-y: auto;
     overscroll-behavior: contain;
     position: absolute;

@@ -6,7 +6,7 @@ export const prerender = false;
 
 const MAX_FIELD_LENGTH = 160;
 const MAX_MESSAGE_LENGTH = 1600;
-const CONTACT_TOPICS = new Set(["Reservierung", "Gruppenabend", "Feedback", "Allgemeine Anfrage"]);
+const CONTACT_TOPICS = new Set(["Reservierung", "Gruppenabend", "Weihnachtsfeier", "Feedback", "Allgemeine Anfrage"]);
 
 const json = (body: Record<string, unknown>, status = 200) =>
   new Response(JSON.stringify(body), {
