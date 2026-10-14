@@ -6,34 +6,57 @@ const phone = "+4915251812634";
 const phoneLabel = "01525 1812634";
 const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? "/api/contact";
 
-// Festkalender: Jahr anpassen, Ruhetage = Montag (1) und Dienstag (2)
+// Festkalender: Jahr und Monate anpassen (Monatsindex 0 = Januar), Ruhetage = Montag (1) und Dienstag (2)
 const EVENT_YEAR = 2026;
+const CALENDAR_MONTHS = [
+  { index: 10, name: "November", short: "Nov." },
+  { index: 11, name: "Dezember", short: "Dez." },
+];
 const WEEKDAYS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 const CLOSED_WEEKDAYS = new Set([1, 2]);
-const SPECIAL_DAYS: Record<number, string> = {
-  6: "Nikolaus",
-  24: "Heiligabend",
-  25: "1. Feiertag",
-  26: "2. Feiertag",
-  31: "Silvester",
+const SPECIAL_DAYS: Record<string, string> = {
+  "12-06": "Nikolaus",
+  "12-24": "Heiligabend",
+  "12-25": "1. Feiertag",
+  "12-26": "2. Feiertag",
+  "12-31": "Silvester",
 };
 
-const calendarDays = Array.from({ length: 31 }, (_, index) => {
-  const day = index + 1;
-  const weekday = new Date(Date.UTC(EVENT_YEAR, 11, day)).getUTCDay();
-  const special = SPECIAL_DAYS[day] ?? "";
+const pad = (value: number) => String(value).padStart(2, "0");
+// Vergangene Tage sind nicht mehr wählbar (Datum in Berliner Zeit, "YYYY-MM-DD")
+const todayValue = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Berlin" }).format(new Date());
+
+const calendarMonths = CALENDAR_MONTHS.map((month) => {
+  const daysInMonth = new Date(Date.UTC(EVENT_YEAR, month.index + 1, 0)).getUTCDate();
+  const days = Array.from({ length: daysInMonth }, (_, index) => {
+    const day = index + 1;
+    const weekday = new Date(Date.UTC(EVENT_YEAR, month.index, day)).getUTCDay();
+    const value = `${EVENT_YEAR}-${pad(month.index + 1)}-${pad(day)}`;
+    const special = SPECIAL_DAYS[value.slice(5)] ?? "";
+    const closed = CLOSED_WEEKDAYS.has(weekday);
+    const past = value < todayValue;
+
+    return {
+      day,
+      value,
+      closed,
+      past,
+      special,
+      unavailableReason: closed ? "Ruhetag" : past ? "Vorbei" : "",
+      label: `${WEEKDAYS[weekday]}, ${day}. ${month.name} ${EVENT_YEAR}${special ? ` (${special})` : ""}`,
+      shortLabel: `${WEEKDAYS[weekday].slice(0, 2)}, ${day}. ${month.short}${special ? ` · ${special}` : ""}`,
+    };
+  });
 
   return {
-    day,
-    value: `${EVENT_YEAR}-12-${String(day).padStart(2, "0")}`,
-    closed: CLOSED_WEEKDAYS.has(weekday),
-    special,
-    label: `${WEEKDAYS[weekday]}, ${day}. Dezember ${EVENT_YEAR}${special ? ` (${special})` : ""}`,
-    shortLabel: `${WEEKDAYS[weekday].slice(0, 2)}, ${day}. Dez.${special ? ` · ${special}` : ""}`,
+    ...month,
+    id: month.name.toLowerCase(),
+    offset: (new Date(Date.UTC(EVENT_YEAR, month.index, 1)).getUTCDay() + 6) % 7,
+    days,
+    openDays: days.filter((day) => !day.unavailableReason),
   };
 });
-const calendarOffset = (new Date(Date.UTC(EVENT_YEAR, 11, 1)).getUTCDay() + 6) % 7;
-const openDays = calendarDays.filter((day) => !day.closed);
+const initialMonth = calendarMonths.find((month) => month.openDays.length > 0) ?? calendarMonths[calendarMonths.length - 1];
 
 const occasions = [
   { value: "Firmenfeier", label: "Firmenfeier", longLabel: "Firmen-Weihnachtsfeier" },
@@ -145,7 +168,7 @@ const pageSchema = {
 
 <BaseLayout
   title="Weihnachtsfeier & Firmenfeier Bad Kissingen | Fass & Flamme"
-  description="Weihnachtsfeier in Bad Kissingen: Exklusiv-Abend für 60 € p. P. oder à la carte – Dry Aged Steaks, BBQ und Fassbier. Jetzt Wunschtermin im Dezember anfragen."
+  description="Weihnachtsfeier in Bad Kissingen: Exklusiv-Abend für 60 € p. P. oder à la carte – Dry Aged Steaks, BBQ und Fassbier. Jetzt Wunschtermin im November oder Dezember anfragen."
   canonicalPath="/weihnachtsfeier/"
   image="/images/reservation-gruppenabend.jpg"
   imageAlt="Gruppenabend bei Fass & Flamme Steakhouse Bad Kissingen"
@@ -212,7 +235,11 @@ const pageSchema = {
                 <span class="feier-label">Datum</span>
                 <select data-quick-date>
                   <option value="">Bitte wählen</option>
-                  {openDays.map((day) => <option value={day.value}>{day.shortLabel}</option>)}
+                  {calendarMonths.filter((month) => month.openDays.length > 0).map((month) => (
+                    <optgroup label={`${month.name} ${EVENT_YEAR}`}>
+                      {month.openDays.map((day) => <option value={day.value}>{day.shortLabel}</option>)}
+                    </optgroup>
+                  ))}
                 </select>
               </label>
               <label class="feier-field">
@@ -390,39 +417,49 @@ const pageSchema = {
             </fieldset>
 
             <fieldset class="feier-cal">
-              <legend class="feier-sr-only">Wunschtermin im Dezember {EVENT_YEAR}</legend>
+              <legend class="feier-sr-only">Wunschtermin im November oder Dezember {EVENT_YEAR}</legend>
               <div class="feier-raute" aria-hidden="true"></div>
               <div class="feier-cal__body">
                 <div class="feier-cal__head">
                   <div>
-                    <span class="feier-cal__kicker">Festkalender</span>
-                    <span class="feier-cal__month">Dezember {EVENT_YEAR}</span>
+                    <span class="feier-cal__kicker">Festkalender {EVENT_YEAR}</span>
+                    <span class="feier-cal__hint">Tippen Sie auf Ihr Wunschdatum</span>
                   </div>
-                  <span class="feier-cal__hint">Tippen Sie auf Ihr Wunschdatum</span>
+                  <div class="feier-cal__switch" role="group" aria-label="Monat wählen">
+                    {calendarMonths.map((month) => (
+                      <button type="button" aria-controls={`feier-month-${month.id}`} aria-pressed={month === initialMonth ? "true" : "false"} data-cal-switch={month.id}>
+                        {month.name}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div class="feier-cal__weekdays" aria-hidden="true">
-                  <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
-                </div>
-                <div class="feier-cal__grid">
-                  {Array.from({ length: calendarOffset }, () => <span aria-hidden="true"></span>)}
-                  {calendarDays.map((day) => (
-                    <label class={`feier-cal__day${day.closed ? " is-closed" : ""}${day.special && !day.closed ? " is-special" : ""}`}>
-                      <input
-                        type="radio"
-                        name="event_date"
-                        value={day.value}
-                        aria-label={day.closed ? `${day.label} – Ruhetag` : day.label}
-                        data-date-label={day.label}
-                        disabled={day.closed}
-                        required={!day.closed}
-                      />
-                      <span class="feier-cal__face">
-                        <span class="feier-cal__number">{day.day}</span>
-                        <span class="feier-cal__tag">{day.closed ? "Ruhetag" : day.special}</span>
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                {calendarMonths.map((month) => (
+                  <div class="feier-cal__month" id={`feier-month-${month.id}`} role="group" aria-label={`${month.name} ${EVENT_YEAR}`} data-cal-month={month.id} hidden={month !== initialMonth}>
+                    <div class="feier-cal__weekdays" aria-hidden="true">
+                      <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+                    </div>
+                    <div class="feier-cal__grid">
+                      {Array.from({ length: month.offset }, () => <span aria-hidden="true"></span>)}
+                      {month.days.map((day) => (
+                        <label class={`feier-cal__day${day.unavailableReason ? " is-closed" : ""}${day.special && !day.unavailableReason ? " is-special" : ""}`}>
+                          <input
+                            type="radio"
+                            name="event_date"
+                            value={day.value}
+                            aria-label={day.unavailableReason ? `${day.label} – ${day.unavailableReason}` : day.label}
+                            data-date-label={day.label}
+                            disabled={Boolean(day.unavailableReason)}
+                            required={!day.unavailableReason}
+                          />
+                          <span class="feier-cal__face">
+                            <span class="feier-cal__number">{day.day}</span>
+                            <span class="feier-cal__tag">{day.unavailableReason || day.special}</span>
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                ))}
                 <p class="feier-cal__summary" aria-live="polite">
                   Ihr Termin: <strong data-date-summary>noch kein Datum gewählt</strong>
                 </p>
@@ -611,8 +648,34 @@ const pageSchema = {
         if (guestsHint) guestsHint.textContent = Number(guestsInput?.value) >= 40 ? "Exklusivbuchung empfohlen" : "";
       };
 
+      const monthPanels = form.querySelectorAll("[data-cal-month]");
+      const monthButtons = form.querySelectorAll("[data-cal-switch]");
+
+      const showMonth = (id) => {
+        monthPanels.forEach((panel) => {
+          panel.hidden = panel.dataset.calMonth !== id;
+        });
+        monthButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.calSwitch === id)));
+      };
+
+      const showMonthOf = (input) => {
+        const panel = input?.closest("[data-cal-month]");
+        if (panel) showMonth(panel.dataset.calMonth);
+      };
+
+      monthButtons.forEach((button) => {
+        button.addEventListener("click", () => showMonth(button.dataset.calSwitch));
+      });
+
       form.addEventListener("change", (event) => {
         if (event.target instanceof HTMLInputElement && event.target.name === "event_date") syncDate();
+      });
+
+      form.addEventListener("reset", () => {
+        window.setTimeout(() => {
+          syncDate();
+          syncGuests();
+        });
       });
 
       guestsInput?.addEventListener("input", syncGuests);
@@ -636,7 +699,10 @@ const pageSchema = {
         const guests = quick.querySelector("[data-quick-guests]")?.value;
 
         if (occasion) checkRadio("occasion", occasion);
-        if (date) checkRadio("event_date", date);
+        if (date) {
+          checkRadio("event_date", date);
+          showMonthOf(form.querySelector('input[name="event_date"]:checked'));
+        }
         if (guests && guestsInput) guestsInput.value = clampGuests(guests);
         syncDate();
         syncGuests();
@@ -644,6 +710,19 @@ const pageSchema = {
 
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
+
+        // Ein verstecktes Pflicht-Radio kann der Browser nicht fokussieren: Datum zuerst im sichtbaren Monat prüfen
+        if (!form.querySelector('input[name="event_date"]:checked')) {
+          const dayToReport =
+            form.querySelector('[data-cal-month]:not([hidden]) input[name="event_date"]:not(:disabled)') ??
+            form.querySelector('input[name="event_date"]:not(:disabled)');
+          if (dayToReport) {
+            showMonthOf(dayToReport);
+            dayToReport.reportValidity();
+            return;
+          }
+        }
+
         if (!form.reportValidity()) return;
 
         const submitButton = form.querySelector('button[type="submit"]');
@@ -657,7 +736,7 @@ const pageSchema = {
           "",
           `Anlass: ${field("occasion")}`,
           `Variante: ${field("package")}`,
-          `Wunschtermin: ${selectedDateLabel()}`,
+          `Wunschtermin: ${selectedDateLabel() || "–"}`,
           `Beginn: ${field("start_time")}`,
           `Ausweichtermin: ${field("alt_date") || "–"}`,
           `Personen: ${field("guests")}`,
@@ -706,6 +785,7 @@ const pageSchema = {
         }
       });
 
+      showMonthOf(form.querySelector('input[name="event_date"]:checked'));
       syncDate();
       syncGuests();
 
