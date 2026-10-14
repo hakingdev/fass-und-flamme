@@ -396,11 +396,8 @@
 }
 
 .feier-cal__head {
-  align-items: flex-end;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  justify-content: space-between;
+  display: grid;
+  gap: 14px;
   padding-inline: 4px;
 }
 
@@ -415,20 +412,59 @@
   text-transform: uppercase;
 }
 
-.feier-cal__month {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.1;
-  margin-top: 6px;
-  text-transform: uppercase;
-}
-
 .feier-cal__hint {
   color: rgba(243, 231, 211, 0.78);
+  display: block;
   font-size: 13px;
   font-weight: 600;
+  margin-top: 8px;
+}
+
+.feier-cal__switch {
+  background: var(--feier-input);
+  border: 1px solid rgba(200, 184, 149, 0.28);
+  border-radius: 999px;
+  display: grid;
+  gap: 4px;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  padding: 4px;
+}
+
+.feier-cal__switch button {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 44px;
+  padding: 0 18px;
+  text-transform: uppercase;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.feier-cal__switch button[aria-pressed="true"] {
+  background: var(--color-brand-bg);
+  color: #140c08;
+}
+
+.feier-cal__switch button:focus-visible {
+  outline: 2px solid var(--feier-gold-light);
+  outline-offset: 2px;
+}
+
+.feier-cal__month {
+  display: grid;
+  gap: 10px;
+}
+
+.feier-cal__month[hidden] {
+  display: none;
 }
 
 .feier-cal__weekdays,
@@ -569,6 +605,11 @@
 }
 
 @container (min-width: 420px) {
+  .feier-cal__head {
+    align-items: center;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
   .feier-cal__weekdays,
   .feier-cal__grid {
     gap: 6px;
@@ -1277,10 +1318,6 @@
     padding: 24px;
   }
 
-  .feier-cal__month {
-    font-size: 26px;
-  }
-
   .feier-form__footer .button {
     min-width: 260px;
     width: auto;
@@ -1491,6 +1528,10 @@
   .feier-guests__step:hover,
   .feier-cal__day:not(.is-closed):hover .feier-cal__face {
     border-color: var(--color-brand-bg);
+  }
+
+  .feier-cal__switch button[aria-pressed="false"]:hover {
+    color: var(--feier-gold-light);
   }
 }
 
