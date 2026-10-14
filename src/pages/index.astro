@@ -1,6 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
+// Saison-Startseite: solange true, leitet "/" temporär (302) auf die Weihnachtsfeier-Seite um.
+// Zum Abschalten auf false setzen und neu deployen.
+const CHRISTMAS_HOME = true;
+
+if (CHRISTMAS_HOME) {
+  return Astro.redirect("/weihnachtsfeier/", 302);
+}
+
 const signatureDishes = [
   {
     title: "Ribeye Dry Aged Steak",
